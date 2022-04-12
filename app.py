@@ -13,32 +13,32 @@ import models.user as User
 import db.db_users as Db_users
 
 ##############################
-@get("/login")
+@get("/")
 @view("login")
 def _():
     return #dict(tabs=common.tabs, tweets=common.tweets, trends=common.trends, items=common.items)
 ##############################
 
-'''these stuff for the voices main
-@get("/app.css")
-def _():
-    return static_file("app.css", root=".")
+# #these stuff for the voices main
+# @get("/app.css")
+# def _():
+#     return static_file("app.css", root=".")
 
-##############################
-@get("script/app.js")
-def _():
-    return static_file("app.js", root=".")
+# ##############################
+# @get("script/app.js")
+# def _():
+#     return static_file("app.js", root=".")
 
-##############################
-@get("script/validator.js")
-def _():
-    return static_file("validator.js", root=".")
+# ##############################
+# @get("script/validator.js")
+# def _():
+#     return static_file("validator.js", root=".")
 
-##############################
-@get("/images/<image_name>")
-def _(image_name):
-    return static_file(image_name, root="./images")
-##############################'''
+# ##############################
+# @get("/images/<image_name>")
+# def _(image_name):
+#     return static_file(image_name, root="./images")
+# ##############################
 
 
 # TODO: Might be nice to move it somewhere else.
