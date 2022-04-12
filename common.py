@@ -1,3 +1,5 @@
+"""This file contains commonly used variables"""
+
 import sqlite3
 
 API_PREFIX = "api"
@@ -10,12 +12,14 @@ JWT_SECRET = "9OzAdFhiJ44vUzK5ikTlflOgztgi45yft3C7VTK6ND2mTEhl9a"
 DB_NAME = "database.sqlite"
 
 def create_json_from_sqlite_result(cursor, row):
+    """This method converts SQLite results into a json"""
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
 
 def _db_connect(db_name):
+    """Connect to the SQLite database."""
     db = sqlite3.connect(db_name)
     db.row_factory = create_json_from_sqlite_result
     return db
