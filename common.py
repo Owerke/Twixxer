@@ -22,7 +22,8 @@ def _db_connect(db_name):
     db.row_factory = create_json_from_sqlite_result
     return db
 
-sessions = {}
+sessions = {
+    } #creating a key that contains the uuid and it will point to a dictionary where i keep the user data. the session is a dictionary here where we have keys =uuid,  and values = dictionary.
 
 users123 =[
     {
@@ -34,7 +35,8 @@ users123 =[
     }
 ]
 
-##############################
+'''this stuff for the voices feed look
+
 tabs = [
   {"icon": "fas fa-home fa-fw", "title": "Home", "id":"home"},
   {"icon": "fas fa-hashtag fa-fw", "title": "Explore", "id": "explore"},
@@ -79,4 +81,4 @@ items = [
   {"img":"bbc.png", "title":"BBC News", "user_name":"bbcworld"},
   {"img":"biden.jpg", "title":"Joe Biden", "user_name":"joebiden"},
   {"img":"harris.jpg", "title":"Vice President", "user_name":"vp"},
-]
+]'''

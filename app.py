@@ -4,40 +4,41 @@ import uuid
 from bottle import default_app, delete, get, post, request, response, run, static_file, view
 import common
 # All these imported modules are coded in this project
-import api.api_login
-import api.api_signup
-import api.api_tweets
+import api.api_admin
 import api.api_users
+import api.api_login
+import api.api_logout
 import common
 import models.user as User
 import db.db_users as Db_users
 
 ##############################
-@get("/voices_index")
-@view("voices_index")
+@get("/login")
+@view("login")
 def _():
-    return dict(tabs=common.tabs, tweets=common.tweets, trends=common.trends, items=common.items)
+    return #dict(tabs=common.tabs, tweets=common.tweets, trends=common.trends, items=common.items)
 ##############################
+
+'''these stuff for the voices main
 @get("/app.css")
 def _():
-  return static_file("app.css", root=".")
+    return static_file("app.css", root=".")
 
 ##############################
-@get("js/app.js")
+@get("script/app.js")
 def _():
-  return static_file("app.js", root=".")
+    return static_file("app.js", root=".")
 
 ##############################
-@get("js/validator.js")
+@get("script/validator.js")
 def _():
-  return static_file("validator.js", root=".")
+    return static_file("validator.js", root=".")
 
 ##############################
 @get("/images/<image_name>")
 def _(image_name):
-  return static_file(image_name, root="./images")
-
-##############################
+    return static_file(image_name, root="./images")
+##############################'''
 
 
 # TODO: Might be nice to move it somewhere else.
@@ -97,4 +98,4 @@ initialize_database()
 create_dummy_data()
 
 # Run the Bottle application
-run(host='localhost', port=6969, debug=True, reloader=True)
+run(host='127.0.0.1', port=6969, debug=True, reloader=True)
