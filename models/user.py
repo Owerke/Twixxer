@@ -8,5 +8,6 @@ class User(TypedDict):
     username: str
     firstname: str
     lastname: str
+    email: str
     password: str
     created: str

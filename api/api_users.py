@@ -44,6 +44,7 @@ def create_user():
             "id" : str(uuid.uuid1()),
             "firstname": request.json.get("firstname"),
             "lastname": request.json.get("lastname"),
+            "email": request.json.get("email"),
             "password": request.json.get("password"),
             # Creation time is the always current time (when this function runs)
             "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")

@@ -1,30 +1,57 @@
 """Main app file, this is where the whole application runs"""
 from datetime import datetime
 import uuid
-from bottle import get, view, run
-
+from bottle import default_app, delete, get, post, request, response, run, static_file, view
+import common
 # All these imported modules are coded in this project
+import api.api_login
+import api.api_signup
+import api.api_tweets
 import api.api_users
 import common
 import models.user as User
 import db.db_users as Db_users
 
-@get("/")
-@view("index")
+##############################
+@get("/voices_index")
+@view("voices_index")
 def _():
-    return "Hello World"
+    return dict(tabs=common.tabs, tweets=common.tweets, trends=common.trends, items=common.items)
+##############################
+@get("/app.css")
+def _():
+  return static_file("app.css", root=".")
+
+##############################
+@get("js/app.js")
+def _():
+  return static_file("app.js", root=".")
+
+##############################
+@get("js/validator.js")
+def _():
+  return static_file("validator.js", root=".")
+
+##############################
+@get("/images/<image_name>")
+def _(image_name):
+  return static_file(image_name, root="./images")
+
+##############################
+
 
 # TODO: Might be nice to move it somewhere else.
 def create_dummy_data():
     """Create some dummy data for easier testing. If the data is already there, don't create it"""
 
     # FIXME: there is some bug with it, and it creates it anyway. Also use the API, not the DB.
-    if not Db_users.get_user_by_username("ElonMusk123"):
+    if not Db_users.get_user_by_username("elonmusk"):
         user1: User = {
-            "username": "ElonMusk123",
+            "username": "elonmusk",
             "id" : str(uuid.uuid1()),
             "firstname": "Elon",
             "lastname": "Must",
+            "email": "elon@tesla.com",
             "password": "teslaisawesome",
             "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
         }
@@ -39,12 +66,14 @@ def create_dummy_data():
                 "id" : str(uuid.uuid1()),
                 "firstname": "Jeff",
                 "lastname": "Bezos",
+                "email": "bezos@amazon.com",
                 "password": "iaminspace",
                 "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
+
         }
         Db_users.create_user(user2)
     else:
-        print("bezos is already in the database")
+        print("Bezos is already in the database")
 
 
 def initialize_database():
@@ -57,7 +86,7 @@ def initialize_database():
     db = common._db_connect(common.DB_NAME)
     cur = db.cursor()
     # Create table
-    cur.execute('''CREATE TABLE IF NOT EXISTS users (id text, username text, firstname text, lastname text, "password" text, created text)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS users (id text, username text, firstname text, lastname text, email text,  "password" text, created text)''')
     # Save (commit) the changes
     db.commit()
 
@@ -68,4 +97,4 @@ initialize_database()
 create_dummy_data()
 
 # Run the Bottle application
-run(host='localhost', port=6969)
+run(host='localhost', port=6969, debug=True, reloader=True)

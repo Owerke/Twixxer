@@ -38,6 +38,7 @@ def get_users():
                 'username': result["username"],
                 'firstname': result["firstname"],
                 'lastname': result["lastname"],
+                'email': result["email"],
                 'password': result["password"],
                 'created': result["created"]
             }
@@ -73,6 +74,7 @@ def get_user_by_username(username: str):
             'username': result["username"],
             'firstname': result["firstname"],
             'lastname': result["lastname"],
+            'email': result["email"],
             'password': result["password"],
             'created': result["created"]
         }
@@ -93,7 +95,7 @@ def create_user(user: User):
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the User object.
-        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", (user["id"], user["username"], user["firstname"], user["lastname"], user["password"], user["created"]))
+        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)", (user["id"], user["username"], user["firstname"], user["lastname"], user["email"], user["password"], user["created"]))
         # Save changes (basically actually execute the insert query)
         db.commit()
         # Return True if everything is good. (if not, then it will throw an exception)
