@@ -7,15 +7,15 @@ import uuid
 @get("/login")
 @view("login")
 def _():
-    ''' encoded_jwt = request.get_cookie("jwt")
-    # Checking if there is an exsisting cookie containing a user
-    if encoded_jwt:
-        decoded_jwt = jwt.decode(encoded_jwt, common.JWT_SECRET, algorithms=["HS256"])
-        user_session_id = decoded_jwt["user_session_id"]
+    # encoded_jwt = request.get_cookie("jwt")
+    # # Checking if there is an exsisting cookie containing a user
+    # if encoded_jwt:
+    #     decoded_jwt = jwt.decode(encoded_jwt, common.JWT_SECRET, algorithms=["HS256"])
+    #     user_session_id = decoded_jwt["user_session_id"]
 
-        # If user exists in the sessions list redirect to the feed view
-        if user_session_id in common.sessions:
-            return redirect("/voices_index")'''
+    #     # If user exists in the sessions list redirect to the feed view
+    #     if user_session_id in common.sessions:
+    #         return redirect("/voices_index")
     return
 
 @post("/login") #this is where to login take place
@@ -31,9 +31,9 @@ def _():
             return redirect ("/admin")
     return redirect ("/login")
 
-'''@get("/logout")
-@view("logout")
-def _():
-    user_session_id = request.get_cookie("user_session_id") #extract the user session id from cookie
-    common.sessions.pop(user_session_id) #removing it from the session dictionary
-    return redirect("/login")'''
+# @get("/logout")
+# @view("logout")
+# def _():
+#     user_session_id = request.get_cookie("user_session_id") #extract the user session id from cookie
+#     common.sessions.pop(user_session_id) #removing it from the session dictionary
+#     return redirect("/login")
