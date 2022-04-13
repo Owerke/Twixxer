@@ -9,6 +9,7 @@ import models.user as User
 
 import routes.root
 import routes.admin
+import routes.signup
 import routes.login
 import routes.logout
 
