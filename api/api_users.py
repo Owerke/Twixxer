@@ -14,7 +14,7 @@ import common
 from models.user import User
 import db.db_users
 
-@get(f"/{common.API_PREFIX}/users")
+@get(f"/api/users")
 def get_users():
     """HTTP GET: Get All Users"""
 
@@ -24,7 +24,7 @@ def get_users():
     return json.dumps(users)
 
 
-@get(f"/{common.API_PREFIX}/user/<username>")
+@get(f"/api/user/<username>")
 def get_user(username):
     """HTTP GET: Get user by username"""
 
@@ -33,7 +33,7 @@ def get_user(username):
     return json.dumps(user)
 
 
-@post(f"/{common.API_PREFIX}/users")
+@post(f"/api/users")
 def create_user():
     """HTTP POST: Create user using HTTP POST and its JSON body."""
 

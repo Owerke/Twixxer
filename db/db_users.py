@@ -86,6 +86,39 @@ def get_user_by_username(username: str):
         print(e)
         return None
 
+def get_user_by_email(email: str):
+    """Get a single user by Email. Returns a `User` object."""
+    try:
+        db = common._db_connect(common.DB_NAME)
+        cur = db.cursor()
+        # Run query
+        cur.execute("SELECT * FROM users WHERE email=?", (email,))
+        # Only fetch one single result, because usernames should be unique.
+        result = cur.fetchone()
+
+        # If there are no results, we just return None
+        if not result:
+            print(f"No results found for user {email}")
+            return None
+
+        # Create a user object with all the details
+        user: User = {
+            'id': result["id"],
+            'username': result["username"],
+            'firstname': result["firstname"],
+            'lastname': result["lastname"],
+            'email': result["email"],
+            'password': result["password"],
+            'created': result["created"]
+        }
+        # Return the User object
+        return user
+
+    # If any error happened, print the error and return None.
+    except Exception as e:
+        print(e)
+        return None
+
 
 def create_user(user: User):
     """Create a user in the database based on a `User` object. Returns `True` if successful, `False` if it failed."""
@@ -104,3 +137,25 @@ def create_user(user: User):
     except Exception as e:
         print(e)
         return False
+
+def create_user_by_properties(id: str, username: str, firstname: str, lastname: str, email: str, password: str, created: str):
+    """Create a user in the database by individual properties. Returns `True` if successful, `False` if it failed."""
+    user: User = {
+        "id": id,
+        "username": username,
+        "firstname": firstname,
+        "lastname": lastname,
+        "email": email,
+        "password": password,
+        "created": created
+    }
+    return create_user(user)
+
+# Example usage:
+# create_user_by_properties("213323", "potaot", cdsa, cdsa, cdsa, cda)
+# create_user_by_properties("213323", "potaot", cdsa, cdsa, cdsa, cda)
+# create_user_by_properties("213323", "potaot", cdsa, cdsa, cdsa, cda)
+# create_user_by_properties("213323", "potaot", cdsa, cdsa, cdsa, cda)
+# create_user_by_properties("213323", "potaot", cdsa, cdsa, cdsa, cda)
+# create_user_by_properties("213323", "potaot", cdsa, cdsa, cdsa, cda)
+# create_user_by_properties("213323", "potaot", cdsa, cdsa, cdsa, cda)

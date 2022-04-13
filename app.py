@@ -2,21 +2,24 @@
 from datetime import datetime
 import uuid
 from bottle import default_app, delete, get, post, request, response, run, static_file, view
-import common
+
 # All these imported modules are coded in this project
-import api.api_admin
-import api.api_users
-import api.api_login
-import api.api_logout
 import common
 import models.user as User
+
+import routes.root
+import routes.admin
+import routes.login
+import routes.logout
+
+import api.api_users
+
 import db.db_users as Db_users
 
 ##############################
-@get("/")
-@view("login")
-def _():
-    return #dict(tabs=common.tabs, tweets=common.tweets, trends=common.trends, items=common.items)
+
+
+    # return #dict(tabs=common.tabs, tweets=common.tweets, trends=common.trends, items=common.items)
 ##############################
 
 # #these stuff for the voices main
@@ -40,43 +43,6 @@ def _():
 #     return static_file(image_name, root="./images")
 # ##############################
 
-
-# TODO: Might be nice to move it somewhere else.
-def create_dummy_data():
-    """Create some dummy data for easier testing. If the data is already there, don't create it"""
-
-    # FIXME: there is some bug with it, and it creates it anyway. Also use the API, not the DB.
-    if not Db_users.get_user_by_username("elonmusk"):
-        user1: User = {
-            "username": "elonmusk",
-            "id" : str(uuid.uuid1()),
-            "firstname": "Elon",
-            "lastname": "Must",
-            "email": "elon@tesla.com",
-            "password": "teslaisawesome",
-            "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
-        }
-        Db_users.create_user(user1)
-    else:
-        print("Elon is already in the database")
-
-
-    if not Db_users.get_user_by_username("daddybezos"):
-        user2: User = {
-                "username": "daddybezos",
-                "id" : str(uuid.uuid1()),
-                "firstname": "Jeff",
-                "lastname": "Bezos",
-                "email": "bezos@amazon.com",
-                "password": "iaminspace",
-                "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
-
-        }
-        Db_users.create_user(user2)
-    else:
-        print("Bezos is already in the database")
-
-
 def initialize_database():
     """
     Set up the database for usage. Create tables, and if necessary, even populate them.
@@ -92,6 +58,29 @@ def initialize_database():
     db.commit()
 
     db.close()
+
+
+# TODO: Might be nice to move it somewhere else.
+def create_dummy_data():
+    """Create some dummy data for easier testing. If the data is already there, don't create it"""
+
+    # FIXME: there is some bug with it, and it creates it anyway. Also use the API, not the DB.
+    if not Db_users.get_user_by_username("elonmusk"):
+        Db_users.create_user_by_properties(str(uuid.uuid1()), "elonmusk", "Elon", "Musk", "elon@tesla.com", "teslaisawesome", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    else:
+        print("Elon is already in the database")
+
+    if not Db_users.get_user_by_username("daddybezos"):
+        Db_users.create_user_by_properties(str(uuid.uuid1()), "daddybezos", "Jeff", "Bezos", "bezos@amazon.com", "iaminspace", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    else:
+        print("Bezos is already in the database")
+
+    if not Db_users.get_user_by_username("andor123"):
+        Db_users.create_user_by_properties(str(uuid.uuid1()), "andor123", "Andor", "Nagy", "a@a.com", "pass1", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    else:
+        print("Andor is already in the database")
+
+
 
 # Initialize and populate the database
 initialize_database()
