@@ -7,7 +7,7 @@ from datetime import datetime
 import json
 from typing import List
 import uuid
-from bottle import get, view, run, post, request
+from bottle import get, post, request
 
 # All these imported modules are coded in this project
 import common
@@ -23,7 +23,6 @@ def get_users():
     # Convert the users into a JSON string, and return that string
     return json.dumps(users)
 
-
 @get(f"/api/user/<username>")
 def get_user(username):
     """HTTP GET: Get user by username"""
@@ -32,8 +31,8 @@ def get_user(username):
     user: User = db.db_users.get_user_by_username(username);
     return json.dumps(user)
 
-
-@post(f"/api/users")
+# This may not be used at all, but we won't delete it, just in case.
+@post(f"/api/user")
 def create_user():
     """HTTP POST: Create user using HTTP POST and its JSON body."""
 
@@ -51,5 +50,6 @@ def create_user():
         }
     # Create the user in the database, using the `db` methods
     db.db_users.create_user(user)
-    # TODO: return the user object
-    return None
+    # Remove password before returning it
+    user["password"] = "****"
+    return user
