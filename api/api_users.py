@@ -11,7 +11,6 @@ import uuid
 from bottle import get, post, request, HTTPResponse
 
 # All these imported modules are coded in this project
-import common
 import authentication
 from models.user import User
 import db.db_users as Db_users
@@ -19,6 +18,15 @@ import db.db_users as Db_users
 @get(f"/api/users")
 def get_users():
     """HTTP GET: Get All Users"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
 
     # Get all users from the database
     users: List[User] = Db_users.get_users();
@@ -28,6 +36,16 @@ def get_users():
 @get(f"/api/user/<username>")
 def get_user(username):
     """HTTP GET: Get user by username"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
     # Query the database "layer" (which will actually get the data from the database) and get the user
     user: User = Db_users.get_user_by_username(username);
     # If we can't find the user, return a 404 code. Otherwise return the user object
