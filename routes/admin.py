@@ -1,5 +1,7 @@
 from bottle import get, view, response, request, redirect
 import common
+import authentication
+
 import db.db_users as Db_users
 from models.user import User
 
@@ -10,7 +12,7 @@ def get_admin():
     jwt = request.get_cookie(common.JWT_COOKIE) #from the cookie we extract the user session id
     if not jwt: #if the user session id is not there, we redirect the user to the login
         return redirect("/login")
-    jwt_data = common.decode_jwt(jwt)
+    jwt_data = authentication.decode_jwt(jwt)
     user: User = Db_users.get_user_by_email(jwt_data["email"])
     if not user:
         return redirect("/login")

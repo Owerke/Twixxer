@@ -6,12 +6,13 @@ Database queries that is related to Tweets.
 from re import T
 from models.tweet import Tweet
 import common
+import db.db as Db
 
 def get_tweets():
     """Get all tweets. Returns a `List[Tweet]` object."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Create a cursor that will execute a query
         cur = db.cursor()
         # Execute query (using the cursor)
@@ -51,7 +52,7 @@ def get_tweets_for_user_by_username(username: str):
     """Get all Tweets for a single User. Returns a `List[Tweet]` object."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Create a cursor that will execute a query
         cur = db.cursor()
         # Execute query (using the cursor)
@@ -91,7 +92,7 @@ def create_tweet(tweet: Tweet):
     """Create a tweet in the database based on a `Tweet` object. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the User object.
@@ -120,7 +121,7 @@ def change_tweet_content(tweet_id: str, new_content: str):
     """Update the content of a tweet. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the details. We update the user with 'username'.
@@ -143,7 +144,7 @@ def change_tweet_banner_id(tweet_id: str, new_banner_id: str):
     """Update the banner_id of a tweet. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the details. We update the user with 'username'.
@@ -170,7 +171,7 @@ def delete_tweet(tweet_id: str):
     """Delete a tweet. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the details. We update the user with 'username'.

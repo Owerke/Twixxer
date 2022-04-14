@@ -34,14 +34,14 @@
                         <i class="fa-brands fa-twitter fa-fw text-4xl text-blue1 pl-5"></i>
                     </div>
                     <div class="">
-                        <!-- % for tab in tabs: -->
+                        % for tab in tabs:
                         <div class="mt-6">
                             <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">
                                 <i class="{{tab['icon']}}"></i>
-                                <!-- <span class="ml-2 hidden md:inline">{{tab['title']}}</span> -->
+                                <span class="ml-2 hidden md:inline">{{tab['title']}}</span>
                             </a>
                         </div>
-                        <!-- % end -->
+                        % end
                     </div>
                     <button onclick="toggleTweetModal()"
                         class="mt-8 w-full py-2 text-lg text-white bg-blue1 rounded-full">
@@ -52,8 +52,8 @@
                     <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer rounded-full">
                         <img class="w-12 h-12 rounded-full flex-none" src="/images/3.jpg">
                         <div class="flex-1 overflow-ellipsis">
-                            <p>Potato</p>
-                            <p class="font-thin">@potatoman</p>
+                            <p>{{ user["firstname"] }} {{ user["lastname"] }}</p>
+                            <p class="font-thin">@{{user["username"]}}</p>
                         </div>
                         <button class="py-2 px-4 bg-white rounded-full">
                             ...
@@ -96,19 +96,22 @@
                 % for tweet in tweets:
                 <div class="p-4 border-t border-slate-200">
                     <div class="flex">
-                        <img class="flex-none w-12 h-12 rounded-full" src="/images/{{tweet['src']}}" alt="">
+                        <img class="flex-none w-12 h-12 rounded-full" src="/images/{{tweet['banner_id']}}" alt="">
                         <div class="w-full pl-4">
                             <p class="font-bold">
-                                @{{tweet["user_name"]}}
+                                @{{tweet["username"]}}
                             </p>
                             <p class="font-thin">
-                                {{tweet["user_first_name"]}} {{tweet["user_last_name"]}}
+                                {{tweet["username"]}}
                             </p>
                             <div class="pt-2">
-                                {{tweet["text"]}}
+                                {{tweet["content"]}}
                             </div>
-                            % if 'image' in tweet:
-                            <img class="mt-2 w-full object-cover h-80" src="/images/{{tweet['image']}}">
+                            % if 'banner_id' in tweet:
+                            <div>
+                                There's supposed to be an image here
+                            </div>
+                            <!-- <img class="mt-2 w-full object-cover h-80" src=""> -->
                             % end
                             <div class="flex gap-12 w-full mt-4 text-lg">
                                 <i class="fa-solid fa-message ml-auto"></i>
@@ -125,52 +128,11 @@
         % # end center
 
 
-
-        % # right
-        <div class="w-1/4 h-screen hidden lg:block">
-            <div class="w-1/5 fixed flex flex-col h-screen gap-4 py-4 pl-4">
-                <div class="h-1/2 flex-grow bg-gray-300 rounded overflow-hidden">
-                    % for trend in trends:
-                    <div class="flex justify-between px-2 py-1 hover:bg-gray-400 cursor-pointer">
-                        <div>
-                            <p class="font-thin">{{trend["category"]}}</p>
-                            <p class="font-bold">{{trend["title"]}}</p>
-                            <p class="font-thin">{{trend["tweets_counter"]}} tweets</p>
-                        </div>
-                        <div>...</div>
-                    </div>
-                    % end
-                </div>
-
-                <div class="relative h-1/2 bg-gray-100 rounded">
-                    <div class="px-2 pt-4 font-bold text-xl">
-                        You might like
-                    </div>
-                    % for item in items:
-                    <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer">
-                        <img class="w-12 h-12 rounded-full flex-none" src="/images/{{item['img']}}">
-                        <div class="flex-1 overflow-ellipsis">
-                            <p>{{item["title"]}}</p>
-                            <p class="font-thin">@{{item["user_name"]}}</p>
-                        </div>
-                        <button class="py-2 px-4 bg-white rounded-full">
-                            Follow
-                        </button>
-                    </div>
-                    % end
-                    <a href="" class="absolute bottom-0 self-end px-2 text-blue1">
-                        Show more
-                    </a>
-                </div>
-            </div>
-        </div>
-        % # end right
-
     </div>
     % # end page
 
-    <script src="app.js"></script>
-    <script src="validator.js"></script>
+    <script src="/app.js"></script>
+    <script src="/validator.js"></script>
 
 </body>
 

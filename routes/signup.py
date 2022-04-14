@@ -2,6 +2,7 @@ from datetime import date, datetime
 import uuid
 from bottle import get,post, redirect, response, request, view
 import common
+import authentication
 import db.db_users as Db_users
 from models.user import User
 from models.jwt import Jwt_data
@@ -57,7 +58,7 @@ def post_signup():
     # Create user in database
     Db_users.create_user(user)
     # Create a token for it for automatic login
-    encoded_jwt = common.create_jwt_for_user(user)
+    encoded_jwt = authentication.create_jwt_for_user(user)
     # Set JWT for auto login
     response.set_cookie(common.JWT_COOKIE, encoded_jwt)
     return redirect ("/login")

@@ -2,11 +2,24 @@
 Generic database queries, like initializing the database (create all tables).
 """
 from datetime import datetime
+import sqlite3
 import uuid
 
 # All these imported modules are coded in this project
 import db.db_users as Db_users
+import db.db_tweets as Db_tweets
 import common
+
+def create_json_from_sqlite_result(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
+def _db_connect(db_name):
+    db = sqlite3.connect(db_name)
+    db.row_factory = create_json_from_sqlite_result
+    return db
 
 def initialize_database():
     """
@@ -15,7 +28,7 @@ def initialize_database():
     This could be done in a separate SQL file too, but if we do it here, then we don't need to manually do anything.
     """
 
-    db = common._db_connect(common.DB_NAME)
+    db = _db_connect(common.DB_NAME)
     cur = db.cursor()
 
     # Create Users table
@@ -65,3 +78,9 @@ def create_dummy_data():
         Db_users.create_user_by_properties(str(uuid.uuid1()), "andor123", "Andor", "Nagy", "a@a.com", "pass1", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
     else:
         print("Andor is already in the database")
+
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We now accept dogecoin at Tesla", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We no longer accept dogecoin at Tesla", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I am going into space.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "And now I am rich.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I came back from space.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))

@@ -7,12 +7,13 @@ This file interacts directly with the database, so if you need to fo any databas
 # All these imported modules are coded in this project
 from models.user import User
 import common
+import db.db as Db
 
 def get_users():
     """Get all users. Returns a `List[User]` object."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Create a cursor that will execute a query
         cur = db.cursor()
         # Execute query (using the cursor)
@@ -53,7 +54,7 @@ def get_users():
 def get_user_by_username(username: str):
     """Get a single user by Username. Returns a `User` object."""
     try:
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         cur = db.cursor()
         # Run query
         cur.execute("SELECT * FROM users WHERE username=?", (username,))
@@ -86,7 +87,7 @@ def get_user_by_username(username: str):
 def get_user_by_email(email: str):
     """Get a single user by Email. Returns a `User` object."""
     try:
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         cur = db.cursor()
         # Run query
         cur.execute("SELECT * FROM users WHERE email=?", (email,))
@@ -121,7 +122,7 @@ def create_user(user: User):
     """Create a user in the database based on a `User` object. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the User object.
@@ -152,7 +153,7 @@ def change_user_details(username: str, new_username: str, new_firstname: str, ne
     """Update user details. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the details. We update the user with 'username'.
@@ -178,7 +179,7 @@ def change_user_password(username: str, new_password: str):
     """Change user password. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
-        db = common._db_connect(common.DB_NAME)
+        db = Db._db_connect(common.DB_NAME)
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the User object.
