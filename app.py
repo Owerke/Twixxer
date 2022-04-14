@@ -6,7 +6,7 @@ import db.db as db
 
 import api.api_users
 
-import routes.root
+import routes.feed
 import routes.admin
 import routes.signup
 import routes.login

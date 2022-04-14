@@ -10,7 +10,17 @@ import re
 @get("/signup")
 @view("signup")
 def get_signup():
-    return
+
+    error = request.params.get('error', "")
+    error_message: str = ""
+    if error == "email-occupied":
+        error_message = "Email is already occupied"
+    elif error == "username-occupied":
+        error_message = "Username is already occupied"
+    else:
+        error_message = "Unknown error occured"
+
+    return dict(error=error_message)
 
 
 @post("/signup")
@@ -24,10 +34,16 @@ def post_signup():
     user_lastname = request.forms.get("user_lastname")
     user_username = request.forms.get("user_username")
 
+    # Check if email is occupied
     user: User = Db_users.get_user_by_email(user_email)
     if user:
         # User is found in the database, so we redirect them to login
-        return redirect ("/login")
+        return redirect("/signup?error=email-occupied")
+    # Check if username is occupied
+    user: User = Db_users.get_user_by_username(user_username)
+    if user:
+        # User is found in the database, so we redirect them to login
+        return redirect("/signup?error=username-occupied")
 
     user = {
         "id": str(uuid.uuid1()),

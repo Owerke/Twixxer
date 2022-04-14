@@ -7,7 +7,7 @@ from datetime import datetime
 import json
 from typing import List
 import uuid
-from bottle import get, post, request
+from bottle import get, post, request, HTTPResponse
 
 # All these imported modules are coded in this project
 import common
@@ -26,10 +26,16 @@ def get_users():
 @get(f"/api/user/<username>")
 def get_user(username):
     """HTTP GET: Get user by username"""
-
     # Query the database "layer" (which will actually get the data from the database) and get the user
     user: User = db.db_users.get_user_by_username(username);
-    return json.dumps(user)
+    # If we can't find the user, return a 404 code. Otherwise return the user object
+    if not user:
+        return HTTPResponse(status=404, body="User not found")
+
+    # Remove password before returning it (so people can't just get it)
+    user["password"] = "****"
+    return HTTPResponse(status=200, body=user)
+
 
 # This may not be used at all, but we won't delete it, just in case.
 @post(f"/api/user")
@@ -49,7 +55,12 @@ def create_user():
             "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
         }
     # Create the user in the database, using the `db` methods
-    db.db_users.create_user(user)
+    result = db.db_users.create_user(user)
+
+    # If we can't create it, return error 500
+    if not result:
+        return HTTPResponse(status=500)
+
     # Remove password before returning it
     user["password"] = "****"
-    return user
+    return HTTPResponse(status=200, body=user)

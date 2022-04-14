@@ -3,9 +3,9 @@ import common
 import db.db_users as Db_Users
 import models.user as User
 
-@get("/admin")
+@get("/")
 @view("admin")
-def get_admin():
+def get_feed():
     response.set_header("Cache-Control", "no-cache, no-store, must-revaildate")
     jwt = request.get_cookie(common.JWT_COOKIE) #from the cookie we extract the user session id
     if not jwt: #if the user session id is not there, we redirect the user to the login

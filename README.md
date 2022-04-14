@@ -1,4 +1,4 @@
-# Twixxer
+ Twixxer
 
 Final exam project for web development. This is where you can find installation guides, and basic information about the project.
 
@@ -78,3 +78,58 @@ For easier code overview and structing, we separated the code into different fil
   - A global variables files that can be used in any module. It stores things like database name, JWT secret, some and some common functions.
 - `/database.sqlite`
   - This is the database. Only the methods in the `/db/` folder are using this file, but it is essential for the entire application.
+
+# Project information
+
+## Requirements
+
+### Mandatory
+
+Every part that you should have a SPA can be done as a normal page, this means reloading the UI
+
+**A user must be able to:**
+
+- [x] Sign Up
+  - A simple page that redirects somewhere. You can also just make it a SPA if wanted
+- [x] Sign In / login
+  - A simple page that redirects somewhere. You can also just make it a SPA if wanted
+- [x] Logout
+  - Simple page or SPA if you want to
+- [x] Use a session
+  - You can do this in the login
+- [x] Use a JWT
+  - You can implement this as part of the cookie in the session
+- [ ] Tweet
+  - It is a SPA, the page should not reload
+- [ ] Delete tweet
+  - It is a SPA, the page should not reload
+- [ ] Update tweet
+  - It is a SPA, the page should not reload
+- [ ] See pages from other users
+  - A simple page that doesn't have to be a SPA, but you can if you want to
+- [ ] Must be able to upload an image somewhere in the system
+
+**System must:**
+
+- [ ] Make it look like twitter using any CSS library or plain CSS. 
+  - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
+- [ ] Admin panel
+  - This is a "stand-alone" feature. This means that it doesn't have to be part of the twitter application, but can be a whole different solution. The administrator can see all tweets and delete them if wanted. It is a SPA, so deleting a tweet doesn't reload the whole page
+- [ ] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH)
+- [ ] look like twitter using any CSS library or plain CSS. We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
+- [ ] Have back-end validation
+- [ ] Have front-end validation - Use any library you want, or create your own
+- [ ] Keep the data in lists and/or dictionaries. I suggest you use SQLite
+- [ ] Uploaded to PythonAnywhere
+  - https://youtu.be/HW8QoyP0pBE?t=30
+- [ ] Use proper HTTP methods: GET, POST, PUT, DELETE
+- [ ] Use proper status codes: 20x, 30x, 40x, 50x
+- [ ] Use try-except
+- [ ] Use regular expressions when needed
+
+### Optional
+
+- [ ] Follow someone - It is a SPA, the page should not reload
+- [ ] Optional - Send an email when the user creates an account (Sign up). This feature may or may not work in PythonAnywhere. If it fails on PythonAnywhere, just make sure you can send the email from localhost/127.0.0.1
+- [ ] Search for user
+- [ ] Update user profile

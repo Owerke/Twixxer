@@ -1,9 +1,12 @@
-"""Users model. It's used to help create User objects everywhere else."""
+"""Tweet model. It's used to help create Tweet objects everywhere else."""
 # TypedDict is a pre-made dictionary that follows the same structure everywhere
 from typing import TypedDict
 
-class User(TypedDict):
-    """This is a user object. All users has to have the same structure as this object."""
+class Tweet(TypedDict):
+    """This is a tweet object. Every tweet will have this structure"""
+
     id: str
     username: str
+    content: str
+    banner_id: str
     created: str

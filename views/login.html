@@ -8,15 +8,18 @@
 </head>
 <body>
     <h1>See what's happening </h1>
-    <form action="/login" method="POST" class="form">
-        <label>Email: </label>
-        <input name="user_email" type="text" class="form-control" placeholder="email" required="required" pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'>
-        <label>Password: </label>
-        <input name="user_password" type="password" class="form-control" placeholder="password" required="required" pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{4,}'>
-        <p> min 4 characters, lowercase or uppercase and digits</p>
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
-    </form>
 
-    <a href="/signup">Sign up here</a>
+    <div>
+        <form action="/login" method="POST" class="form">
+            <label>Email:</label>
+            <input name="user_email" type="text" class="form-control" placeholder="email" required="required">
+            <label>Password:</label>
+            <input name="user_password" type="password" class="form-control" placeholder="password" required="required">
+            <p>Passwod needs to be min 4 characters, and consist of lowercase or uppercase and digits</p>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <a href="/signup">Sign up here</a>
+    </div>
 </body>
 </html>

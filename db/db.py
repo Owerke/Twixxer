@@ -20,14 +20,14 @@ def initialize_database():
     # Create table
     cur.execute('''CREATE TABLE IF NOT EXISTS users
                 (
-                    "id" text,
-                    "username" text,
-                    "firstname" text,
-                    "lastname" text,
-                    "email" text,
-                    "password" text,
-                    "created" text
-                )
+                    "id" TEXT NOT NULL PRIMARY KEY,
+                    "username" TEXT NOT NULL UNIQUE,
+                    "firstname" TEXT,
+                    "lastname" TEXT,
+                    "email" TEXT NOT NULL UNIQUE,
+                    "password" TEXT,
+                    "created" TEXT
+                );
                 ''')
     # Save (commit) the changes
     db.commit()
