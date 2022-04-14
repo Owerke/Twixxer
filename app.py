@@ -5,6 +5,7 @@ from bottle import default_app, run
 import db.db as db
 
 import api.api_users
+import api.api_tweet
 
 import routes.feed
 import routes.admin
