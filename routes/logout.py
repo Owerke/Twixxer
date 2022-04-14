@@ -4,7 +4,7 @@ import common
 @get("/logout")
 @view("logout")
 def get_logout():
-    response.set_cookie(common.JWT_COOKIE, "", expires=0)
+    response.delete_cookie(common.JWT_COOKIE)
     print("#"*30)
     print("logout")
     return redirect("/login")

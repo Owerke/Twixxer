@@ -5,6 +5,7 @@ import common
 import db.db_users as Db_users
 from models.user import User
 from models.jwt import Jwt_data
+import re
 
 @get("/signup")
 @view("signup")
@@ -14,6 +15,9 @@ def get_signup():
 
 @post("/signup")
 def post_signup():
+    if not re.match(common.REGEX_EMAIL, request.forms.get("user_email")):
+        return "not valid email address"
+
     user_email = request.forms.get("user_email")
     user_password = request.forms.get("user_password")
     user_firstname = request.forms.get("user_firstname")

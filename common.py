@@ -45,4 +45,9 @@ def create_jwt_for_user(user: User):
 
 def decode_jwt(jwt_token: str):
     data: Jwt_data = jwt.decode(jwt_token, JWT_SECRET, algorithms=["HS256"])
+
     return data
+
+def validate_jwt(jwt_token: str):
+    # TODO: Finish this
+    return False

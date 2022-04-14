@@ -3,6 +3,7 @@ import common
 import db.db_users as Db_Users
 from models.user import User
 from models.jwt import Jwt_data
+import re
 
 @get("/")
 @get("/login")
@@ -20,6 +21,13 @@ def get_login():
 
 @post("/login") #this is where to login take place
 def post_login():
+    if not request.forms.get("user_email"):
+        return redirect("/login?error=email")
+
+    if not re.match(common.REGEX_EMAIL, request.forms.get("user_email")):
+        return redirect("/login?error=email")
+
+
     user_email = request.forms.get("user_email")
     user_password = request.forms.get("user_password")
 
