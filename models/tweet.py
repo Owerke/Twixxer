@@ -4,7 +4,6 @@ from typing import TypedDict
 
 class Tweet(TypedDict):
     """This is a tweet object. Every tweet will have this structure"""
-
     id: str
     username: str
     content: str

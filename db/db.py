@@ -17,7 +17,8 @@ def initialize_database():
 
     db = common._db_connect(common.DB_NAME)
     cur = db.cursor()
-    # Create table
+
+    # Create Users table
     cur.execute('''CREATE TABLE IF NOT EXISTS users
                 (
                     "id" TEXT NOT NULL PRIMARY KEY,
@@ -26,9 +27,21 @@ def initialize_database():
                     "lastname" TEXT,
                     "email" TEXT NOT NULL UNIQUE,
                     "password" TEXT,
-                    "created" TEXT
+                    "created" TEXT NOT NULL
                 );
                 ''')
+    # Create Tweets table
+    cur.execute('''CREATE TABLE IF NOT EXISTS tweets
+                (
+                    "id" TEXT NOT NULL PRIMARY KEY,
+                    "username" TEXT NOT NULL,
+                    "content" TEXT,
+                    "banner_id" TEXT,
+                    "created" TEXT NOT NULL,
+                    FOREIGN KEY(username) REFERENCES users(username)
+                );
+                ''')
+
     # Save (commit) the changes
     db.commit()
 

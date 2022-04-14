@@ -1,6 +1,6 @@
 from bottle import get,post, redirect, response, request, view, HTTPResponse
 import common
-import db.db_users as Db_Users
+import db.db_users as Db_users
 from models.user import User
 from models.jwt import Jwt_data
 import re
@@ -12,7 +12,7 @@ def get_login():
     jwt = request.get_cookie(common.JWT_COOKIE) # extract the user session id from cookie
     if jwt:
         jwt_data: Jwt_data = common.decode_jwt(jwt)
-        if Db_Users.get_user_by_email(jwt_data["email"]):
+        if Db_users.get_user_by_email(jwt_data["email"]):
             return redirect("/")
 
 
@@ -29,7 +29,7 @@ def post_login():
     user_email = request.forms.get("user_email")
     user_password = request.forms.get("user_password")
 
-    user: User = Db_Users.get_user_by_email(user_email)
+    user: User = Db_users.get_user_by_email(user_email)
     if not user:
         # User is not found in the database
         return redirect ("/login")
