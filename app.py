@@ -12,6 +12,7 @@ import routes.admin
 import routes.signup
 import routes.login
 import routes.logout
+import routes.profile
 
 
 # TODO: Place these in the correct routes

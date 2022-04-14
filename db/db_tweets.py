@@ -88,6 +88,36 @@ def get_tweets_for_user_by_username(username: str):
         print(e)
         return None
 
+def get_tweet_by_id(tweet_id: str):
+    """Get a single user by Username. Returns a `User` object."""
+    try:
+        db = Db._db_connect(common.DB_NAME)
+        cur = db.cursor()
+        # Run query
+        cur.execute("SELECT * FROM tweets WHERE id=?", (tweet_id,))
+        # Only fetch one single result, because ids should be unique.
+        result = cur.fetchone()
+
+        # If there are no results, we just return None
+        if not result:
+            print(f"No tweet found for {tweet_id}")
+            return None
+
+        # Create a tweet object with all the details
+        tweet: Tweet = {
+            'id': result["id"],
+            'username': result["username"],
+            'banner_id': result["banner_id"],
+            'content': result["content"],
+            'created': result["created"]
+        }
+        # Return the Tweet object
+        return tweet
+    # If any error happened, print the error and return None.
+    except Exception as e:
+        print(e)
+        return None
+
 def create_tweet(tweet: Tweet):
     """Create a tweet in the database based on a `Tweet` object. Returns `True` if successful, `False` if it failed."""
     try:
@@ -176,7 +206,7 @@ def delete_tweet(tweet_id: str):
         cur = db.cursor()
         # Execute query with the values from the details. We update the user with 'username'.
         cur.execute("""DELETE FROM tweets
-                    WHERE tweet_id = ?;
+                    WHERE id = ?;
                     """,
                     (tweet_id,)
                     )

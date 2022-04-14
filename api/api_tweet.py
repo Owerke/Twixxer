@@ -7,7 +7,7 @@ from datetime import datetime
 import json
 from typing import List
 import uuid
-from bottle import get, post, request, HTTPResponse, response
+from bottle import get, post, delete, request, HTTPResponse, response
 
 # All these imported modules are coded in this project
 import common
@@ -89,3 +89,33 @@ def create_tweet():
         return HTTPResponse(status=500)
 
     return HTTPResponse(status=200, body=tweet)
+
+@delete(f"/api/tweet/<tweet_id>")
+def delete_tweet(tweet_id):
+    """HTTP POST: Create tweet using HTTP POST and its JSON body."""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    tweet: Tweet = Db_tweets.get_tweet_by_id(tweet_id)
+    # If we can't find tweet, return 404
+    if not tweet:
+        return HTTPResponse(status=404, body="Can't find tweet")
+
+    if tweet["username"] != token["username"]:
+        return HTTPResponse(status=403, body="You don't have permission to delete someone else's tweet")
+
+    # Delete tweet
+    result = Db_tweets.delete_tweet(tweet_id)
+
+    # If we can't delete it, return error 500
+    if not result:
+        return HTTPResponse(status=500)
+
+    return HTTPResponse(status=200, body="Tweet deleted")
