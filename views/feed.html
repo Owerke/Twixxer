@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+% include("header", title="Twixxer")
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/c884ab5724.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/app.css">
-    <title>Twixxter</title>
-</head>
-
-<body class="w-full h-screen">
+<!-- <body class="w-full h-screen"> -->
 
 
     <section id="tweetModal" class="fixed w-screen h-screen z-10 hidden">
@@ -50,7 +40,7 @@
                 </div>
                 <div class="mt-auto">
                     <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer rounded-full">
-                        <img class="w-12 h-12 rounded-full flex-none" src="/images/3.jpg">
+                        <img class="w-12 h-12 rounded-full flex-none" src="/static/images/placeholder.png">
                         <div class="flex-1 overflow-ellipsis">
                             <p>{{ user["firstname"] }} {{ user["lastname"] }}</p>
                             <p class="font-thin">@{{user["username"]}}</p>
@@ -96,7 +86,7 @@
                 % for tweet in tweets:
                 <div class="p-4 border-t border-slate-200">
                     <div class="flex">
-                        <img class="flex-none w-12 h-12 rounded-full" src="/images/{{tweet['banner_id']}}" alt="">
+                        <img class="flex-none w-12 h-12 rounded-full" src="/static/images/placeholder.png" alt="">
                         <div class="w-full pl-4">
                             <p class="font-bold">
                                 @{{tweet["username"]}}
@@ -131,9 +121,5 @@
     </div>
     % # end page
 
-    <script src="/app.js"></script>
-    <script src="/validator.js"></script>
 
-</body>
-
-</html>
+% include("footer")

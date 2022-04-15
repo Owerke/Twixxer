@@ -7,6 +7,7 @@ import db.db as db
 import api.api_users
 import api.api_tweet
 
+import routes.static
 import routes.feed
 import routes.admin
 import routes.signup

@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twixxer login</title>
-</head>
-<body>
+% include("header", title="Twixxer Login")
+
     <h1>See what's happening </h1>
 
     <div>
@@ -16,10 +9,12 @@
             <label>Password:</label>
             <input name="user_password" type="password" class="form-control" placeholder="password" required="required">
             <p>Passwod needs to be min 4 characters, and consist of lowercase or uppercase and digits</p>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <button type="submit" class="py-2 px-4 bg-black rounded-full">Login</button>
         </form>
 
         <a href="/signup">Sign up here</a>
     </div>
 </body>
 </html>
+
+% include("footer")
