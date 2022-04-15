@@ -12,25 +12,30 @@ Requirements:
 
 Running the program (from PowerShell on Windows):
 
+Create a new Python VENV (if you already have one, skip this step):
 ```
 python -m venv .
 ```
 
+Activate the Python VENV:
 ```
 ./Scripts/Activate.ps1
 ```
 
+Install all Python packages from the requirements.txt file (all python packages you need should be in this file)
 ```
 pip3 install -r requirements.txt
 ```
 
+Run the application using the VENV Python app.
 ```
 ./Scripts/python.exe app.py
 ```
+*Note: If you set the Python Interpreter to this `python.exe` (which is in the VENV) in VSCode, you'll get proper debugging functionality inside the VENV.*
 
 ### Install and run TailwindCSS
 
-**Installation:** Open up a terminal and enter the following commands:  
+**Installation:** Open up a terminal and enter the following commands (only need to do it once):  
 *Note: requires NodeJS and npm to be installed*
 
 ```
@@ -65,10 +70,12 @@ For easier code overview and structing, we separated the code into different fil
   - The `models` folder contains typed dictionaries (`TypedDict`) to help in the creation of consistent data structures (dictionaries). Everything here is a template for some object, like a user (which has properties like username, ID, password, etc.)
 - `/db/`
   - The `db` folder contains functions that are used to interact with the database. If any code needs to query something from the database, instead of directly accessing the DB, it calls functions from this folder instead. This way if there is any change in how we interact with the database, only code in this folder will be affected, everything else is the same.
-- `/js/`
-  - The `js` folder contains all javascript code for the application.
 - `/views/`
   - The `views` folder contains the HTML codes and templates that will make this app work in a browser :)
+- `/static/`
+  - The `static` folder is used to serve CSS, JS, and other assets to the frontend. The `routes/static.py` bottle route is serving all content from here.
+- `/static/js/`
+  - The `js` folder contains all javascript code for the application. It has to be served statically, otherwise the frontend can't recognize it.
 
 ### Notable files
 
@@ -76,6 +83,8 @@ For easier code overview and structing, we separated the code into different fil
   - Main application, this is where the web server is being run from. It only contains minimal code that imports and runs the app
 - `/common.py`
   - A global variables files that can be used in any module. It stores things like database name, JWT secret, some and some common functions.
+- `/authentication.py`
+  - Contains all authentication related Python code that is used in various places.
 - `/database.sqlite`
   - This is the database. Only the methods in the `/db/` folder are using this file, but it is essential for the entire application.
 
@@ -99,9 +108,9 @@ Every part that you should have a SPA can be done as a normal page, this means r
   - You can do this in the login
 - [x] Use a JWT
   - You can implement this as part of the cookie in the session
-- [ ] Tweet
+- [x] Tweet
   - It is a SPA, the page should not reload
-- [ ] Delete tweet
+- [x] Delete tweet
   - It is a SPA, the page should not reload
 - [ ] Update tweet
   - It is a SPA, the page should not reload
@@ -114,18 +123,20 @@ Every part that you should have a SPA can be done as a normal page, this means r
 - [ ] Make it look like twitter using any CSS library or plain CSS. 
   - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
 - [ ] Admin panel
-  - This is a "stand-alone" feature. This means that it doesn't have to be part of the twitter application, but can be a whole different solution. The administrator can see all tweets and delete them if wanted. It is a SPA, so deleting a tweet doesn't reload the whole page
+  - This is a "stand-alone" feature. This means that it doesn't have to be part of the twitter application, but can be a whole different solution. The administrator can see all tweets and delete them if wanted. It is a SPA, so deleting a tweet doesn't reload the whole page.
 - [ ] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH)
-- [ ] look like twitter using any CSS library or plain CSS. We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
+- [ ] look like twitter using any CSS library or plain CSS.
+  - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
 - [ ] Have back-end validation
-- [ ] Have front-end validation - Use any library you want, or create your own
-- [ ] Keep the data in lists and/or dictionaries. I suggest you use SQLite
+- [ ] Have front-end validation
+  - Use any library you want, or create your own
+- [x] Keep the data in lists and/or dictionaries. I suggest you use SQLite
 - [ ] Uploaded to PythonAnywhere
   - https://youtu.be/HW8QoyP0pBE?t=30
-- [ ] Use proper HTTP methods: GET, POST, PUT, DELETE
-- [ ] Use proper status codes: 20x, 30x, 40x, 50x
-- [ ] Use try-except
-- [ ] Use regular expressions when needed
+- [x] Use proper HTTP methods: GET, POST, PUT, DELETE
+- [x] Use proper status codes: 20x, 30x, 40x, 50x
+- [x] Use try-except
+- [x] Use regular expressions when needed
 
 ### Optional
 
