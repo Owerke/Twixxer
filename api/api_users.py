@@ -84,9 +84,11 @@ def create_user():
     user["password"] = "****"
     return HTTPResponse(status=200, body=user)
 
-# This is basically only for testing authentication
-@post(f"/api/auth-test")
-def auth_user_test():
+# This is basically only for testing JWT authentication
+@post(f"/api/jwt-test")
+def jwt_auth_test():
+    """Test a JWT, and if it's valid, return the user object it belongs to."""
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization
     auth_token = request.headers.get('Authorization', None)
     auth_token = authentication.parse_jwt_header(auth_token)
 
@@ -102,3 +104,24 @@ def auth_user_test():
     user: User = Db_users.get_user_by_username(token["username"])
     user["password"] = "****"
     return HTTPResponse(status=200, body=user)
+
+@post(f"/api/authenticate")
+def basic_authenticate():
+    """Use HTTP basic authentication (username:password) to generate a JWT."""
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization
+    auth_token = request.headers.get('Authorization', None)
+    credentials = authentication.parse_basic_auth_header(auth_token)
+
+    # if either the username or the password is empty, then unathorize
+    if not credentials["username"] or not credentials["password"]:
+        return HTTPResponse(status=401, body="Unathorized")
+    # We try to authenticate the user. if it's not successful, then we are unauthorized
+    authenticated = authentication.password_authenticate(credentials["username"], credentials["password"])
+    if not authenticated:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    # Create a JWT for the user
+    user = Db_users.get_user_by_username(credentials["username"])
+    encoded_jwt = authentication.create_jwt_for_user(user)
+    # Return JWT
+    return HTTPResponse(status=200, body=encoded_jwt)
