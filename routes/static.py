@@ -24,3 +24,15 @@ def get_static_js_content(content):
 @get("/static/images/<content>")
 def get_static_js_content(content):
   return static_file(content, root="./static/images")
+
+
+# Serve fontawesome webfonts
+@get("/static/fontawesome/webfonts/<content>")
+def get_font_awesome_webfonts(content):
+  return static_file(content, root="./static/fontawesome/webfonts")
+
+# Serve fontawesome CSS
+@get("/static/fontawesome/css/<content>")
+def get_font_awesome_css(content):
+  return static_file(content, root="./static/fontawesome/css")
+

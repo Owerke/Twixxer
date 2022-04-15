@@ -16,7 +16,7 @@ def get_tweets():
         # Create a cursor that will execute a query
         cur = db.cursor()
         # Execute query (using the cursor)
-        cur.execute("SELECT * FROM tweets")
+        cur.execute("SELECT * FROM tweets ORDER BY created DESC;")
         # Fetch all data (from the cursor)
         results = cur.fetchall()
 

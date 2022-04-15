@@ -83,36 +83,7 @@
             </div>
 
             <div id="tweets" class="voices mt-4">
-                % for tweet in tweets:
-                <div class="p-4 border-t border-slate-200">
-                    <div class="flex">
-                        <img class="flex-none w-12 h-12 rounded-full" src="/static/images/placeholder.png" alt="">
-                        <div class="w-full pl-4">
-                            <p class="font-bold">
-                                @{{tweet["username"]}}
-                            </p>
-                            <p class="font-thin">
-                                {{tweet["username"]}}
-                            </p>
-                            <div class="pt-2">
-                                {{tweet["content"]}}
-                            </div>
-                            % if 'banner_id' in tweet:
-                            <div>
-                                There's supposed to be an image here
-                            </div>
-                            <!-- <img class="mt-2 w-full object-cover h-80" src=""> -->
-                            % end
-                            <div class="flex gap-12 w-full mt-4 text-lg">
-                                <i class="fa-solid fa-message ml-auto"></i>
-                                <i class="fa-solid fa-heart"></i>
-                                <i class="fa-solid fa-retweet"></i>
-                                <i class="fa-solid fa-share-nodes"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                % end
+                <!-- This is where we JS all the tweets into -->
             </div>
         </div>
         % # end center
@@ -121,5 +92,6 @@
     </div>
     % # end page
 
+<script src="/static/js/feed.js"></script>
 
 % include("footer")
