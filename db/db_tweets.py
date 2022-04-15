@@ -157,8 +157,8 @@ def change_tweet_content(tweet_id: str, new_content: str):
         # Execute query with the values from the details. We update the user with 'username'.
         cur.execute("""UPDATE tweets
                     SET
-                        content = ?,
-                    WHERE tweet_id = ?;
+                        content = ?
+                    WHERE id = ?;
                     """,
                     (new_content, tweet_id))
         # Save changes (basically actually execute the insert query)

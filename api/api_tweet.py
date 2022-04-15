@@ -7,7 +7,7 @@ from datetime import datetime
 import json
 from typing import List
 import uuid
-from bottle import get, post, delete, request, HTTPResponse, response
+from bottle import route, get, post, delete, request, HTTPResponse, response
 
 # All these imported modules are coded in this project
 import common
@@ -19,6 +19,7 @@ import db.db_tweets as Db_tweets
 @get(f"/api/tweets")
 def get_tweets():
     """HTTP GET: Get All Tweets"""
+    ####### Authentication - only allow this if you have a valid JWT ###########
     auth_token = request.headers.get('Authorization', None)
     auth_token = authentication.parse_jwt_header(auth_token)
     # if the token is empty, then reject.
@@ -28,6 +29,8 @@ def get_tweets():
     # if the token is not valid, then reject
     if not token:
         return HTTPResponse(status=401, body="Unathorized")
+    ############################################################################
+
 
     # Get all tweets from the database
     tweets: List[Tweet] = Db_tweets.get_tweets();
@@ -37,6 +40,7 @@ def get_tweets():
 @get(f"/api/tweets/<username>")
 def get_tweets_for_user_by_username(username):
     """HTTP GET: Get tweets by username"""
+    ####### Authentication - only allow this if you have a valid JWT ###########
     auth_token = request.headers.get('Authorization', None)
     auth_token = authentication.parse_jwt_header(auth_token)
     # if the token is empty, then reject.
@@ -46,6 +50,8 @@ def get_tweets_for_user_by_username(username):
     # if the token is not valid, then reject
     if not token:
         return HTTPResponse(status=401, body="Unathorized")
+    ############################################################################
+
 
     # Query the database "layer" (which will actually get the data from the database) and get the tweets from the user
     tweets: List[Tweet] = Db_tweets.get_tweets_for_user_by_username(username);
@@ -59,6 +65,7 @@ def get_tweets_for_user_by_username(username):
 # This may not be used at all, but we won't delete it, just in case.
 @post(f"/api/tweet")
 def create_tweet():
+    ####### Authentication - only allow this if you have a valid JWT ###########
     """HTTP POST: Create tweet using HTTP POST and its JSON body."""
     auth_token = request.headers.get('Authorization', None)
     auth_token = authentication.parse_jwt_header(auth_token)
@@ -69,6 +76,7 @@ def create_tweet():
     # if the token is not valid, then reject
     if not token:
         return HTTPResponse(status=401, body="Unathorized")
+    ############################################################################
 
     # Create the user object from the JSON info
     tweet: Tweet = {
@@ -93,6 +101,7 @@ def create_tweet():
 @delete(f"/api/tweet/<tweet_id>")
 def delete_tweet(tweet_id):
     """HTTP POST: Create tweet using HTTP POST and its JSON body."""
+    ####### Authentication - only allow this if you have a valid JWT ###########
     auth_token = request.headers.get('Authorization', None)
     auth_token = authentication.parse_jwt_header(auth_token)
     # if the token is empty, then reject.
@@ -102,6 +111,7 @@ def delete_tweet(tweet_id):
     # if the token is not valid, then reject
     if not token:
         return HTTPResponse(status=401, body="Unathorized")
+    ############################################################################
 
     tweet: Tweet = Db_tweets.get_tweet_by_id(tweet_id)
     # If we can't find tweet, return 404
@@ -119,3 +129,53 @@ def delete_tweet(tweet_id):
         return HTTPResponse(status=500)
 
     return HTTPResponse(status=200, body="Tweet deleted")
+
+@route(f"/api/tweet", method='PATCH')
+def edit_tweet():
+    """HTTP POST: Create tweet using HTTP POST and its JSON body."""
+    ####### Authentication - only allow this if you have a valid JWT ###########
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+    ############################################################################
+
+    # We expect something like this to recieve in the json from javascript:
+    # {
+    #     "id": "xxxxxxx-xxxxxxx-xxxxxx",
+    #     "content": "xxxxxxxx"
+    #     "banner_id": "xxxxxxx-xxxxxxxx-xxxxxxx"
+    # }
+
+    tweet_id = request.json.get("id")
+    tweet_content = request.json.get("content")
+    # TODO: Implement banner upload, and upload it here too or something like that.
+    tweet_banner_id = request.json.get("banner_id")
+
+    # If the user tries to edit another user's tweet, we reject it.
+    tweet: Tweet = Db_tweets.get_tweet_by_id(request.json.get("id"))
+    if tweet["username"] != token["username"]:
+        return HTTPResponse(status=403, body="Forbidden")
+
+    result = False
+
+    # We only edit content if we get a new content
+    if tweet_content:
+        result = Db_tweets.change_tweet_content(tweet_id, tweet_content)
+
+    # We only edit the banner if we get a new banner
+    if tweet_banner_id:
+        result = Db_tweets.change_tweet_banner_id(tweet_id, tweet_banner_id)
+
+    tweet: Tweet = Db_tweets.get_tweet_by_id(tweet_id)
+
+    # If we can't create it, return error 500
+    if not result:
+        return HTTPResponse(status=500)
+
+    return HTTPResponse(status=200, body=tweet)
