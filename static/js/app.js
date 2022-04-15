@@ -1,12 +1,55 @@
 "use strict"
 
+const jwt_cookie = "user_session_jwt"
+
 function get_all_elements(q, e = document) { return e.querySelectorAll(q) }
 function get_one_element(q, e = document) { return e.querySelector(q) }
 
 
+function getCookie(cname) {
+    // Source: https://www.w3schools.com/js/js_cookies.asp
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
+function delete_cookie(name, path = "/") {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`;
+  }
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
+
+function getJWTFromCookie() {
+    return getCookie(jwt_cookie)
+}
+
+function logout() {
+    delete_cookie(jwt_cookie)
+}
+
 function toggleTweetModal() {
     get_one_element("#tweetModal").classList.toggle("hidden")
 }
+
+
 
 async function sendTweet() {
     const form = event.target
