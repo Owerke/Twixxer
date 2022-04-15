@@ -10,7 +10,9 @@ import base64
 def password_authenticate(username: str, password: str):
     """Authenticate a user with username and password. Returns True if it's valid (authenticated), False if it's not."""
     user: User = Db_users.get_user_by_username(username)
-    if user["password"] and user["password"] == password:
+    if not user or not user["password"] or not user["username"]:
+        return False
+    if user["password"] == password:
         return True
     return False
 
