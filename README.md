@@ -47,6 +47,7 @@ npx tailwindcss init
 **Run as development:** To develop tailwind, use the following command:
 
 ```
+cd tailwindcss
 npx tailwindcss -i tailwindcss.css -o ../app.css --watch
 ```
 
@@ -120,11 +121,9 @@ Every part that you should have a SPA can be done as a normal page, this means r
 
 **System must:**
 
-- [ ] Make it look like twitter using any CSS library or plain CSS. 
-  - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
 - [ ] Admin panel
   - This is a "stand-alone" feature. This means that it doesn't have to be part of the twitter application, but can be a whole different solution. The administrator can see all tweets and delete them if wanted. It is a SPA, so deleting a tweet doesn't reload the whole page.
-- [ ] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH)
+- [ ] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH, update profil? like?)
 - [ ] look like twitter using any CSS library or plain CSS.
   - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
 - [ ] Have back-end validation

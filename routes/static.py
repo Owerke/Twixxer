@@ -36,3 +36,6 @@ def get_font_awesome_webfonts(content):
 def get_font_awesome_css(content):
   return static_file(content, root="./static/fontawesome/css")
 
+@get("/static/manual.css")
+def get_app_css():
+  return static_file("manual.css", root="./")
