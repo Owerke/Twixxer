@@ -84,3 +84,27 @@ def create_dummy_data():
     Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I am going into space.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
     Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "And now I am rich.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
     Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I came back from space.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+
+tabs = [
+    {"icon": "fas fa-home fa-fw", "title": "Home", "id":"home"},
+    {"icon": "fas fa-hashtag fa-fw", "title": "Explore", "id": "explore"},
+    {"icon": "far fa-bell fa-fw", "title": "Notifications", "id": "notifications"},
+    {"icon": "far fa-envelope fa-fw", "title": "Messages", "id": "messages"},
+    {"icon": "far fa-bookmark fa-fw", "title": "Bookmarks", "id": "bookmarks"},
+    {"icon": "fas fa-clipboard-list fa-fw", "title": "Lists", "id": "lists"},
+    {"icon": "far fa-user fa-fw", "title": "Profile", "id": "profile"},
+    {"icon": "fas fa-ellipsis-h fa-fw", "title": "More", "id": "more"}
+]
+items = [
+    {"img":"static/images/elonmusk.jpg", "title":"Elon Musk", "user_name":"elonmusk"},
+    {"img":"daddybezos.jpg", "title":"Daddy Bezos", "user_name":"daddybezos"},
+    {"img":"static/images/pinkbanana.jpg", "title":"Pink BaNaNa", "user_name":"pinkbanana"},
+]
+
+trends = [
+    {"category": "Music", "title": "We Won", "tweets_counter": "135K"},
+    {"category": "Pop", "title": "Blue Ivy", "tweets_counter": "40k"},
+    {"category": "Trending in US", "title": "Denim Day", "tweets_counter": "40k"},
+    {"category": "Ukraine", "title": "Ukraine", "tweets_counter": "20k"},
+    {"category": "Russia", "title": "Russia", "tweets_counter": "10k"},
+]

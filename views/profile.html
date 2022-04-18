@@ -1,285 +1,167 @@
 % include("header", title=f"Twixxer - {user['firstname']} {user['lastname']}")
+% include("header", title="Twixxer")
 
-<h1>
-    {{ user["firstname"]}} {{ user["lastname"]}}
-</h1>
+<body class="max-w-screen-xl box-border">
 
-<img src="{{ profile_pic }}" alt="profile pic">
 
-% for tweet in tweets:
-<div>
-    {{tweet["content"]}}
-</div>
-% end
+    <section id="tweetModal" class="fixed w-screen h-screen z-10 hidden">
+        <div class="absolute h-full w-full bg-black bg-opacity-50" onclick="toggleTweetModal()">
 
-% include("footer")
-
-<body>
-
-    <header id="main-header">
-        <div class="container">
-            <nav>
-                <ul>
-                    <li><img src="images/home.svg" alt="Home">Home</li>
-                    <li><img src="images/notification.svg" alt="Home">Notifications</li>
-                    <li><img src="images/message.svg" alt="Home">Messages</li>
-                </ul>
-            </nav>
-            <img src="images/logo.svg" alt="Logo">
-            <div class="side">
-                <input type="text" placeholder="Search on Twitter">
-                <img src="images/avatar.png" alt="Avatar">
-                <button>Tweet</button>
-            </div>
         </div>
-    </header>
+        <div class="relative z-10 bg-black rounded-lg w-1/3 h-64 mx-auto mt-20">
 
-    <div class="banner">
-        <h1>Twixxer {{ user["firstname"]}} {{ user["lastname"]}}</h1>
-    </div>
-
-    <div class="bar">
-        <div class="container">
-            <ul>
-                <li class="active">
-                    <span>Tweets</span>
-                    <strong>345</strong>
-                </li>
-
-                <li>
-                    <span>Followings</span>
-                    <strong>321</strong>
-                </li>
-
-                <li>
-                    <span>Followers</span>
-                    <strong>34</strong>
-                </li>
-
-                <li>
-                    <span>Favorites</span>
-                    <strong>12</strong>
-                </li>
-            </ul>
-
-            <div class="actions">
-                <button>Follow</button>
-                <img src="images/more.svg" alt="More">
-            </div>
         </div>
-    </div>
+    </section>
 
-    <div class="wrapper-content">
-        <div class="container">
-            <aside class="profile">
-                <img src="images/avatar.png" class="avatar" alt="Gabriel de Jesus">
-                <h1>Gabriel de jesus</h1>
-                <span>devgabrieldejeuss</span>
-                <p>❤️ Simply passionate about creating and transforming interfaces!</p>
 
-                <ul class="list">
-                    <li><img src="images/place.svg" alt="Place">Rio de Janeiro, Brasil</li>
-                    <li><img src="images/url.svg" alt="URL">gabrieldesenvolvedor.com</li>
-                    <li><img src="images/joined.svg" alt="Joined">Joined October 2020</li>
-                    <li><img src="images/born.svg" alt="Born">Born the 19th of December 1998</li>
-                </ul>
+    % # main page
+    <div class="flex w-full mx-auto xl:w-4/5">
 
-                <div class="widget followers">
-                    <strong><img src="images/followers.svg" alt="Followers"> 180 followers that you know</strong>
-                    <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-                <div class="widget images">
-                    <strong><img src="images/images.svg" alt="Images"> 266 Photos and videos</strong>
-                    <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-
-            </aside>
-
-            <section class="timeline">
-                <nav>
-                    <a href="" class="active">Tweets</a>
-                    <a href="">Tweets and replies</a>
-                    <a href="">Medias</a>
-                </nav>
-
-                <ul class="tweets">
-
-                    <li>
-                        <img src="images/avatar.png" alt="Avatar">
-                        <div class="info">
-                            <strong>Gabriel de Jesus <span>@botdogb</span></strong>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, vitae doloribus eum
-                                repudiandae odio.</p>
-
-                            <div class="actions">
-                                <a href=""><img src="images/comments.svg" alt="Comments"> 3</a>
-                                <a href=""><img src="images/retweet.svg" alt="Retweet"> 8</a>
-                                <a href=""><img src="images/like.svg" alt="Like"> 3</a>
-                            </div>
+        % # left
+        <div class="w-1/4">
+            <div class="fixed h-screen w-1/5 px-1 lg:px-6 flex flex-col py-6">
+                <div class="">
+                    <div class="">
+                        <i class="fa-brands fa-twitter fa-fw text-4xl text-blue1 pl-5"></i>
+                    </div>
+                    <div class="">
+                        % for tab in tabs:
+                        <div class="mt-6">
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">
+                                <i class="{{tab['icon']}}"></i>
+                                <span class="ml-2 hidden md:inline">{{tab['title']}}</span>
+                            </a>
                         </div>
-                    </li>
-
-                    <li>
-                        <img src="images/avatar.png" alt="Avatar">
-                        <div class="info">
-                            <strong>Gabriel de Jesus <span>@botdogb</span></strong>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, vitae doloribus eum
-                                repudiandae odio.</p>
-
-                            <div class="actions">
-                                <a href=""><img src="images/comments.svg" alt="Comments"> 3</a>
-                                <a href=""><img src="images/retweet.svg" alt="Retweet"> 8</a>
-                                <a href=""><img src="images/like.svg" alt="Like"> 3</a>
-                            </div>
+                        % end
+                        <div class="mt-6 py-6">
+                            <button onclick="logout(); location.href='/';"
+                                class="py-2 px-4 w-1/2 bg-gray-50 text-gray-700 rounded-full font-sans font-thin border border-slate-700 hover:border-blue">
+                                Logout
+                            </button>
                         </div>
-                    </li>
-
-                    <li>
-                        <img src="images/avatar.png" alt="Avatar">
-                        <div class="info">
-                            <strong>Gabriel de Jesus <span>@botdogb</span></strong>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, vitae doloribus eum
-                                repudiandae odio.</p>
-
-                            <div class="actions">
-                                <a href=""><img src="images/comments.svg" alt="Comments"> 3</a>
-                                <a href=""><img src="images/retweet.svg" alt="Retweet"> 8</a>
-                                <a href=""><img src="images/like.svg" alt="Like"> 3</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <img src="images/avatar.png" alt="Avatar">
-                        <div class="info">
-                            <strong>Gabriel de Jesus <span>@botdogb</span></strong>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, vitae doloribus eum
-                                repudiandae odio.</p>
-
-                            <div class="actions">
-                                <a href=""><img src="images/comments.svg" alt="Comments"> 3</a>
-                                <a href=""><img src="images/retweet.svg" alt="Retweet"> 8</a>
-                                <a href=""><img src="images/like.svg" alt="Like"> 3</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <img src="images/avatar.png" alt="Avatar">
-                        <div class="info">
-                            <strong>Gabriel de Jesus <span>@botdogb</span></strong>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, vitae doloribus eum
-                                repudiandae odio.</p>
-
-                            <div class="actions">
-                                <a href=""><img src="images/comments.svg" alt="Comments"> 3</a>
-                                <a href=""><img src="images/retweet.svg" alt="Retweet"> 8</a>
-                                <a href=""><img src="images/like.svg" alt="Like"> 3</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <img src="images/avatar.png" alt="Avatar">
-                        <div class="info">
-                            <strong>Gabriel de Jesus <span>@botdogb</span></strong>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, vitae doloribus eum
-                                repudiandae odio.</p>
-
-                            <div class="actions">
-                                <a href=""><img src="images/comments.svg" alt="Comments"> 3</a>
-                                <a href=""><img src="images/retweet.svg" alt="Retweet"> 8</a>
-                                <a href=""><img src="images/like.svg" alt="Like"> 3</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <img src="images/avatar.png" alt="Avatar">
-                        <div class="info">
-                            <strong>Gabriel de Jesus <span>@botdogb</span></strong>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, vitae doloribus eum
-                                repudiandae odio.</p>
-
-                            <div class="actions">
-                                <a href=""><img src="images/comments.svg" alt="Comments"> 3</a>
-                                <a href=""><img src="images/retweet.svg" alt="Retweet"> 8</a>
-                                <a href=""><img src="images/like.svg" alt="Like"> 3</a>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-            </section>
-
-            <aside class="widgets">
-                <div class="widget follow">
-                    <div class="title">
-                        <strong>Who to follow</strong>
-                        <a href="">Refresh</a>
-                        <a href="">View all</a>
                     </div>
 
-                    <ul>
-                        <li>
-                            <div class="profile">
-                                <img src="images/avatar.png" alt="Avatar">
-                                <div class="info">
-                                    <strong>Gabriel <span>@botdogb</span></strong>
-                                    <button>Follow</button>
-                                </div>
-                            </div>
-                            <a href="">x</a>
-                        </li>
-
-                        <li>
-                            <div class="profile">
-                                <img src="images/avatar.png" alt="Avatar">
-                                <div class="info">
-                                    <strong>Gabriel <span>@botdogb</span></strong>
-                                    <button>Follow</button>
-                                </div>
-                            </div>
-                            <a href="">x</a>
-                        </li>
-
-                        <li>
-                            <div class="profile">
-                                <img src="images/avatar.png" alt="Avatar">
-                                <div class="info">
-                                    <strong>Gabriel <span>@botdogb</span></strong>
-                                    <button>Follow</button>
-                                </div>
-                            </div>
-                            <a href="">x</a>
-                        </li>
-                    </ul>
-
                 </div>
-            </aside>
+                <div class="mt-auto">
+                    <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer rounded-full">
+                        <img class="w-12 h-12 rounded-full flex-none" src="/static/images/placeholder.png">
+                        <div class="flex-1 overflow-ellipsis">
+                            <p>{{ user["firstname"] }} {{ user["lastname"] }}</p>
+                            <p class="font-thin">@{{user["username"]}}</p>
+                        </div>
+                        <button class="py-2 px-4 bg-white rounded-full">
+                            ...
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+        % # end left
+
+
+
+
+
+
+
+        % # center
+        <div class="w-2/4 min-h-screen border-x border-gray-300">
+            <!-- Here comes the profile-->
+            <div class="h-52 bg-slate-600" alt="cover pic"></div>
+            <div class="rounded-full w-36 h-36 bg-white ml-4 -mt-20">
+                <img class="rounded-full p-1" src="/static/images/pinkbanana.jpg" alt="profile pic">
+            </div>
+            <div id="whole stuff" class="ml-4">
+                <p class="font-bold">{{ user["firstname"] }} {{ user["lastname"] }}</p>
+                <p class="font-thin">@{{user["username"]}}</p>
+                <div class="flex flex-row">
+                    <svg viewbox="0 0 24 24" class="h-5">
+                        <g>
+                            <path
+                                d="M19.708 2H4.292C3.028 2 2 3.028 2 4.292v15.416C2 20.972 3.028 22 4.292 22h15.416C20.972 22 22 20.972 22 19.708V4.292C22 3.028 20.972 2 19.708 2zm.792 17.708c0 .437-.355.792-.792.792H4.292c-.437 0-.792-.355-.792-.792V6.418c0-.437.354-.79.79-.792h15.42c.436 0 .79.355.79.79V19.71z">
+                            </path>
+                            <circle cx="7.032" cy="8.75" r="1.285"></circle>
+                            <circle cx="7.032" cy="13.156" r="1.285"></circle>
+                            <circle cx="16.968" cy="8.75" r="1.285"></circle>
+                            <circle cx="16.968" cy="13.156" r="1.285"></circle>
+                            <circle cx="12" cy="8.75" r="1.285"></circle>
+                            <circle cx="12" cy="13.156" r="1.285"></circle>
+                            <circle cx="7.032" cy="17.486" r="1.285"></circle>
+                            <circle cx="12" cy="17.486" r="1.285"></circle>
+                        </g>
+                    </svg>
+                    <p class="font-thin pl-2">Joined {{user["created"]}}</p>
+                </div>
+
+                <p class="font-thin">1 Following 666 Followers</p>
+
+            </div>
+            % for tweet in tweets:
+            <div id="tweets" class="mt-4"></div>
+            % end
+            <!--<div id="tweets" class="voices mt-4"> This is where we JS all the tweets into </div>-->
+        </div>
+        % # end center
+
+
+
+<!--TODO: add picture, make dynamic links, filter tweets by user-->
+
+
+        % # right
+        <div class="w-1/4 h-screen hidden lg:block flex-col">
+            <div class="w-1/5 fixed h-screen gap-4 py-4 pl-4">
+
+                <div class="p-4">
+                    <form class="relative" onsubmit="return false">
+                        <i class="fas fa-search absolute top-4 left-4"></i>
+                        <input
+                            class="w-full h-12 px-4 rounded-full placeholder:text-gray-700 bg-gray-100 pl-12 outline-none"
+                            type="text" placeholder="Search on Twixxer">
+                    </form>
+                </div>
+
+                <div class="h-1/2 bg-gray-300 rounded overflow-hidden p-4 mb-2">
+                    % for trend in trends:
+                    <div class="justify-between px-2 py-1 hover:bg-gray-400 cursor-pointer">
+                        <div>
+                            <p class="font-thin">{{trend["category"]}}</p>
+                            <p class="font-bold">{{trend["title"]}}</p>
+                            <p class="font-thin">{{trend["tweets_counter"]}} tweets</p>
+                        </div>
+                        <div>...</div>
+                    </div>
+                    % end
+                </div>
+
+                <div class="h-1/2 bg-gray-100 rounded">
+                    <div class="p-4 font-bold text-xl">
+                        You might like
+                    </div>
+                    % for item in items:
+                    <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer">
+                        <img class="w-12 h-12 rounded-full flex-none" src="/images/{{item['img']}}">
+                        <div class="flex-1 overflow-ellipsis">
+                            <p>{{item["title"]}}</p>
+                            <p class="font-thin">@{{item["user_name"]}}</p>
+                        </div>
+                        <button class="py-2 px-4 bg-black text-white rounded-full">
+                            Follow
+                        </button>
+                    </div>
+                    % end
+                    <a href="" class="absolute bottom-0 self-end p-2 text-blue">
+                        Show more
+                    </a>
+                </div>
+            </div>
+        </div>
+        % # end right
+
+
     </div>
+    % # end page
 
+    <script src="/static/js/profile.js"></script>
 
-</body>
-
-</html>
+    % include("footer")

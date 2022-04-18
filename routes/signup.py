@@ -62,3 +62,5 @@ def post_signup():
     # Set JWT for auto login
     response.set_cookie(common.JWT_COOKIE, encoded_jwt)
     return redirect ("/login")
+
+#TODO: send email verification
