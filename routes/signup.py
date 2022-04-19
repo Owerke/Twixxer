@@ -11,9 +11,17 @@ import re
 @get("/signup")
 @view("signup")
 def get_signup():
-
+    # Get error parameters from URL (eg.: http://127.0.0.1:6969/signup?error=username-occupied)
     error = request.params.get('error', "")
+
+    # if we can't get it, that means no error has occured
+    if not error:
+        return dict(error="")
+
+    # Error message is the one we display to the user
     error_message: str = ""
+
+    # different error scenarios
     if error == "email-occupied":
         error_message = "Email is already occupied"
     elif error == "username-occupied":
@@ -21,19 +29,20 @@ def get_signup():
     else:
         error_message = "Unknown error occured"
 
+    # display the error message in the HTML
     return dict(error=error_message)
 
 
 @post("/signup")
 def post_signup():
-    if not re.match(common.REGEX_EMAIL, request.forms.get("user_email")):
-        return "not valid email address"
-
     user_email = request.forms.get("user_email")
     user_password = request.forms.get("user_password")
     user_firstname = request.forms.get("user_firstname")
     user_lastname = request.forms.get("user_lastname")
     user_username = request.forms.get("user_username")
+
+    if not re.match(common.REGEX_EMAIL, user_email):
+        return "not valid email address"
 
     # Check if email is occupied
     user: User = Db_users.get_user_by_email(user_email)
