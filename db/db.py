@@ -40,7 +40,8 @@ def initialize_database():
                     "lastname" TEXT,
                     "email" TEXT NOT NULL UNIQUE,
                     "password" TEXT,
-                    "created" TEXT NOT NULL
+                    "created" TEXT NOT NULL,
+                    "picture_path" TEXT
                 );
                 ''')
     # Create Tweets table
@@ -96,9 +97,9 @@ tabs = [
     {"icon": "fas fa-ellipsis-h fa-fw", "title": "More", "id": "more"}
 ]
 items = [
-    {"img":"static/images/elonmusk.jpg", "title":"Elon Musk", "user_name":"elonmusk"},
-    {"img":"daddybezos.jpg", "title":"Daddy Bezos", "user_name":"daddybezos"},
-    {"img":"static/images/pinkbanana.jpg", "title":"Pink BaNaNa", "user_name":"pinkbanana"},
+    {"img":"/static/images/elonmusk.jpg", "title":"Elon Musk", "user_name":"elonmusk"},
+    {"img":"/static/images/daddybezos.jpg", "title":"Daddy Bezos", "user_name":"daddybezos"},
+    {"img":"/static/images/pinkbanana.jpg", "title":"Pink BaNaNa", "user_name":"pinkbanana"},
 ]
 
 trends = [

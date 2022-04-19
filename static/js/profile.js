@@ -31,10 +31,15 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
         deleteIcon = `<button type='button' onclick="deleteTweet('${tweet.id}')"><i class="cursor-pointer fa-solid fa-trash-can"></i></button>`;
     }
 
+    if (tweet.user_profile_picture_path == "") {
+        tweet.user_profile_picture_path = "placeholder.png"
+    }
+
+
     let htmlTweetTemplate = `
     <div id="tweet-${tweet.id}" class="p-4 border-t border-slate-200">
         <div class="flex">
-            <img class="flex-none w-12 h-12 rounded-full" src="/static/images/placeholder.png" alt="profile_pic">
+            <img class="flex-none w-12 h-12 rounded-full" src="/static/images/profiles/${tweet.user_profile_picture_path}" alt="profile_pic">
             <div class="w-full pl-4">
                 <p class="font-bold">
                     <a href='/profile/${tweet.username}'>@${tweet.username}</a> (Created at ${tweet.created})
@@ -83,6 +88,25 @@ async function get_tweets_for_user_by_username(username) {
     }
     // Parse the string into a json
     const tweets = JSON.parse(await connection.text());
+
+    for (let i = 0; i < tweets.length; i++) {
+        const tweet = tweets[i]
+        const connection = await fetch(`/api/user/${tweet.username}`, {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${jwt}`
+            }
+        });
+        if (!connection.ok) {
+            alert("uppps...try again");
+            return;
+        }
+        // Parse the string into a json
+        const user = JSON.parse(await connection.text());
+        tweets[i].user_profile_picture_path = user.picture_path;
+    }
+
+
     // Display tweets
     htmlDisplayTweets(tweets);
 }

@@ -86,7 +86,7 @@
             <!-- Here comes the profile-->
             <div class="h-52 bg-slate-600" alt="cover pic"></div>
             <div class="rounded-full w-36 h-36 bg-white ml-4 -mt-20">
-                <img class="rounded-full p-1" src="/static/images/pinkbanana.jpg" alt="profile pic">
+                <img class="rounded-full p-1" src="/static/images/profiles/{{user['picture_path']}}" alt="profile pic">
             </div>
             <div id="whole stuff" class="ml-4">
                 <p class="font-bold">{{ user["firstname"] }} {{ user["lastname"] }}</p>
@@ -109,6 +109,13 @@
                             <input class="mt-1 ml-1 py-1 px-4 w-1/2 border focus:outline outline-offset-0 outline-blue" name="user_password" type="password" class="form-control" placeholder="Password">
                             <button class="my-5 py-2 px-4 w-1/2 bg-blue rounded-full text-gray-700 font-sans font-bold" type="submit"><a class="text-gray-700 font-sans font-bold">Update Password</a></button>
                         </form>
+
+                        <!-- Upload files: https://bottlepy.org/docs/dev/tutorial.html#file-uploads -->
+                        <form action="/profile/{{user['username']}}/picture" method="post" enctype="multipart/form-data">
+                            Select a file: <input type="file" name="upload" />
+                            <button class="my-5 py-2 px-4 w-1/2 bg-blue rounded-full text-gray-700 font-sans font-bold" type="submit"><a class="text-gray-700 font-sans font-bold">Upload picture</a></button>
+                        </form>
+
 
 
 

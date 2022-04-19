@@ -38,7 +38,8 @@ def get_users():
                 'lastname': result["lastname"],
                 'email': result["email"],
                 'password': result["password"],
-                'created': result["created"]
+                'created': result["created"],
+                'picture_path': result['picture_path']
             }
             # Add this user to the List
             users.append(user)
@@ -74,7 +75,8 @@ def get_user_by_username(username: str):
             'lastname': result["lastname"],
             'email': result["email"],
             'password': result["password"],
-            'created': result["created"]
+            'created': result["created"],
+            'picture_path': result['picture_path']
         }
         # Return the User object
         return user
@@ -107,7 +109,8 @@ def get_user_by_email(email: str):
             'lastname': result["lastname"],
             'email': result["email"],
             'password': result["password"],
-            'created': result["created"]
+            'created': result["created"],
+            'picture_path': result['picture_path']
         }
         # Return the User object
         return user
@@ -117,7 +120,6 @@ def get_user_by_email(email: str):
         print(e)
         return None
 
-
 def create_user(user: User):
     """Create a user in the database based on a `User` object. Returns `True` if successful, `False` if it failed."""
     try:
@@ -126,7 +128,7 @@ def create_user(user: User):
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the User object.
-        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)", (user["id"], user["username"], user["firstname"], user["lastname"], user["email"], user["password"], user["created"]))
+        cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (user["id"], user["username"], user["firstname"], user["lastname"], user["email"], user["password"], user["created"], user["picture_path"]))
         # Save changes (basically actually execute the insert query)
         db.commit()
         # Return True if everything is good. (if not, then it will throw an exception)
@@ -136,7 +138,7 @@ def create_user(user: User):
         print(e)
         return False
 
-def create_user_by_properties(id: str, username: str, firstname: str, lastname: str, email: str, password: str, created: str):
+def create_user_by_properties(id: str, username: str, firstname: str, lastname: str, email: str, password: str, created: str, picture_path: str = ""):
     """Create a user in the database by individual properties. Returns `True` if successful, `False` if it failed."""
     user: User = {
         "id": id,
@@ -145,7 +147,8 @@ def create_user_by_properties(id: str, username: str, firstname: str, lastname: 
         "lastname": lastname,
         "email": email,
         "password": password,
-        "created": created
+        "created": created,
+        "picture_path": picture_path
     }
     return create_user(user)
 
@@ -187,6 +190,28 @@ def change_user_password(username: str, new_password: str):
                     WHERE username = ?;
                     """,
                     (new_password, username))
+        # Save changes (basically actually execute the insert query)
+        db.commit()
+        # Return True if everything is good. (if not, then it will throw an exception)
+        return True
+    # In case of error, just return False
+    except Exception as e:
+        print(e)
+        return False
+
+def change_user_picture_path(username: str, new_picture_path: str):
+    """Change user's picture path. Returns `True` if successful, `False` if it failed."""
+    try:
+        # Connect to database
+        db = Db._db_connect(common.DB_NAME)
+        # Get the cursor (that will execute the query)
+        cur = db.cursor()
+        # Execute query with the values from the User object.
+        cur.execute("""UPDATE users
+                    SET picture_path = ?
+                    WHERE username = ?;
+                    """,
+                    (new_picture_path, username))
         # Save changes (basically actually execute the insert query)
         db.commit()
         # Return True if everything is good. (if not, then it will throw an exception)

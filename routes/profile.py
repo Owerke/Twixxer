@@ -1,4 +1,6 @@
+import imghdr
 import imp
+import os
 from typing import List
 from unittest.mock import patch
 from bottle import get, view, request, redirect, response, post
@@ -56,7 +58,6 @@ def get_edit_user_profile(username):
 
 
 @post("/profile/<username>")
-@view("edit_profile")
 def patch_edit_user_profile(username):
     # Authentication: only logged in users can view
     response.set_header("Cache-Control", "no-cache, no-store, must-revaildate")
@@ -81,8 +82,7 @@ def patch_edit_user_profile(username):
     return redirect(f'/profile/{user["username"]}/edit')
 
 @post("/profile/<username>/password")
-@view("edit_profile")
-def patch_edit_user_profile(username):
+def post_edit_user_password(username):
     # Authentication: only logged in users can view
     response.set_header("Cache-Control", "no-cache, no-store, must-revaildate")
     jwt = request.get_cookie(common.JWT_COOKIE) #from the cookie we extract the user session id
@@ -100,5 +100,62 @@ def patch_edit_user_profile(username):
 
     new_user_password = request.forms.get("user_password")
     result = Db_users.change_user_password(user["username"], new_user_password)
+
+    return redirect(f'/profile/{user["username"]}/edit')
+
+
+@post("/profile/<username>/picture")
+def post_edit_user_picture(username):
+    # Authentication: only logged in users can view
+    response.set_header("Cache-Control", "no-cache, no-store, must-revaildate")
+    jwt = request.get_cookie(common.JWT_COOKIE) #from the cookie we extract the user session id
+    if not jwt: # if the user session id is not there, we redirect the user to the login
+        return redirect("/")
+    jwt_data: Jwt_data = authentication.decode_jwt(jwt)
+    # the user can only edit its own profile (so it has to own the correct JWT)
+    if username != jwt_data["username"]:
+        return redirect("/")
+    # Check if the user is in the database too
+    user: User = Db_users.get_user_by_username(jwt_data["username"])
+    if not user:
+        return redirect("/")
+    # #############################
+
+    # Upload files: https://bottlepy.org/docs/dev/tutorial.html#file-uploads
+    save_path = "./static/images/profiles"
+
+    image = request.files.get('upload')
+    file_name, file_extension = os.path.splitext(image.filename) # .png .jpeg .jpg
+
+    # overwrite jpg to jpeg so imghdr will pass validation
+    if file_extension == ".jpg": file_extension = ".jpeg"
+    # Validate extension
+    if file_extension not in (".png", ".jpeg", ".jpg"):
+        return "image not allowed"
+
+    # Create new image name
+    image_name = f"{user['id']}{file_extension}"
+    image_full_path = f"{save_path}/{image_name}"
+
+    try:
+        os.remove(image_full_path)
+    except:
+        print("Does not need to remove pic")
+    # Save the image
+    image.save(image_full_path)
+
+    # Make sure that the image is actually a valid image
+    # by reading its mime type
+    print("imghdr.what", imghdr.what(image_full_path))   # imghdr.what png
+    print("file_extension", file_extension) # file_extension .png
+
+    imghdr_extension = imghdr.what(image_full_path)
+    if file_extension != f".{imghdr_extension}":
+        print("mmm... suspicious ... it is not really an image")
+        # remove the invalid image from the folder
+        os.remove(image_full_path)
+        return "mmm...got you! It was not an image"
+
+    Db_users.change_user_picture_path(user["username"], image_name)
 
     return redirect(f'/profile/{user["username"]}/edit')

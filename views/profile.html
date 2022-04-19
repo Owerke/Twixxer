@@ -67,7 +67,11 @@
                 </div>
                 <div class="mt-auto">
                     <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer rounded-full">
-                        <img class="w-12 h-12 rounded-full flex-none" src="/static/images/placeholder.png">
+                        % if user["picture_path"]:
+                        <img class="w-12 h-12 rounded-full flex-none" src="/static/images/profiles/{{user['picture_path']}}">
+                        % else:
+                            <img class="w-12 h-12 rounded-full flex-none" src="/static/images/profiles/placeholder.png">
+                        % end
                         <div class="flex-1 overflow-ellipsis">
                             <p>{{ user["firstname"] }} {{ user["lastname"] }}</p>
                             <p class="font-thin">@{{user["username"]}}</p>
@@ -86,7 +90,12 @@
             <!-- Here comes the profile-->
             <div class="h-52 bg-slate-600" alt="cover pic"></div>
             <div class="rounded-full w-36 h-36 bg-white ml-4 -mt-20">
-                <img class="rounded-full p-1" src="/static/images/pinkbanana.jpg" alt="profile pic">
+                % if user["picture_path"]:
+                    <img class="rounded-full p-1" src="/static/images/profiles/{{user['picture_path']}}">
+                % else:
+                    <img class="rounded-full p-1" src="/static/images/profiles/placeholder.png">
+                % end
+
             </div>
             <div id="whole stuff" class="ml-4">
                 <p class="font-bold">{{ user["firstname"] }} {{ user["lastname"] }}</p>
@@ -157,7 +166,7 @@
                     </div>
                     % for item in items:
                     <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer">
-                        <img class="w-12 h-12 rounded-full flex-none" src="/images/{{item['img']}}">
+                        <img class="w-12 h-12 rounded-full flex-none" src="{{item['img']}}">
                         <div class="flex-1 overflow-ellipsis">
                             <p>{{item["title"]}}</p>
                             <p class="font-thin">@{{item["user_name"]}}</p>

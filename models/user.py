@@ -11,3 +11,4 @@ class User(TypedDict):
     email: str
     password: str
     created: str
+    picture_path: str

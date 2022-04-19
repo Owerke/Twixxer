@@ -20,10 +20,16 @@ def get_tweet_banners(content):
 def get_static_js_content(content):
   return static_file(content, root="./static/js")
 
-# Server the entire js folder
+# Server the entire images folder
 @get("/static/images/<content>")
 def get_static_js_content(content):
   return static_file(content, root="./static/images")
+
+# Server the profile pictures
+@get("/static/images/profiles/<content>")
+def get_static_js_content(content):
+  return static_file(content, root="./static/images/profiles")
+
 
 
 # Serve fontawesome webfonts
