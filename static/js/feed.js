@@ -37,10 +37,7 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
             <img class="flex-none w-12 h-12 rounded-full" src="/static/images/placeholder.png" alt="profile_pic">
             <div class="w-full pl-4">
                 <p class="font-bold">
-                    @${tweet.username} (Created at ${tweet.created})
-                </p>
-                <p class="font-thin">
-                    ${tweet.username}
+                <a href='/profile/${tweet.username}'>@${tweet.username}</a> (Created at ${tweet.created})
                 </p>
                 <div class="pt-2">
                     ${tweet.content}

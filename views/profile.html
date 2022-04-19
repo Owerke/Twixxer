@@ -16,23 +16,46 @@
 
     % # main page
     <div class="flex w-full mx-auto xl:w-4/5">
-
         % # left
         <div class="w-1/4">
             <div class="fixed h-screen w-1/5 px-1 lg:px-6 flex flex-col py-6">
                 <div class="">
                     <div class="">
-                        <i class="fa-brands fa-twitter fa-fw text-4xl text-blue1 pl-5"></i>
+                        <i class="fa-brands fa-twitter fa-fw text-4xl text-blue pl-5"></i>
                     </div>
                     <div class="">
-                        % for tab in tabs:
                         <div class="mt-6">
-                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">
-                                <i class="{{tab['icon']}}"></i>
-                                <span class="ml-2 hidden md:inline">{{tab['title']}}</span>
-                            </a>
+                            <i class="fas fa-home"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="/">Home</a>
                         </div>
-                        % end
+                        <div class="mt-6">
+                            <i class="far fa-user fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href='/profile/{{user["username"]}}'>Profile</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="fas fa-hashtag fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Explore</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="far fa-bell fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Notifications</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="far fa-envelope fa-fw "></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Messages</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="far fa-bookmark fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Bookmarks</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="fas fa-clipboard-list fa-fw"></i>  <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Lists</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="fas fa-ellipsis-h fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">More</a>
+                        </div>
+
                         <div class="mt-6 py-6">
                             <button onclick="logout(); location.href='/';"
                                 class="py-2 px-4 w-1/2 bg-gray-50 text-gray-700 rounded-full font-sans font-thin border border-slate-700 hover:border-blue">
@@ -57,12 +80,6 @@
             </div>
         </div>
         % # end left
-
-
-
-
-
-
 
         % # center
         <div class="w-2/4 min-h-screen border-x border-gray-300">
