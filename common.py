@@ -9,3 +9,5 @@ JWT_SECRET = "9OzAdFhiJ44vUzK5ikTlflOgztgi45yft3C7VTK6ND2mTEhl9a"
 JWT_COOKIE = "user_session_jwt"
 
 DB_NAME = "database.sqlite"
+
+SENDGRID_API_KEY="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"
