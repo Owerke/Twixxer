@@ -71,16 +71,16 @@ function htmlDisplayTweets(tweets) {
     }
 }
 
-async function get_tweets_for_user_by_username() {
+async function get_tweets_for_user_by_username(username) {
     // Connect to the api and get all the tweets from the database
     //TODO fix user name <username> instead of
-    const connection = await fetch(`/api/tweets/andor123`, {
+    const connection = await fetch(`/api/tweets/${username}`, {
         method: "GET",
         headers: {
             'Authorization': `Bearer ${jwt}`
         }
     });
-    if (!connection.ok) {
+    if (!connection.ok && !connection.status == 404) {
         alert("uppps...try again");
         return;
     }
@@ -116,4 +116,5 @@ async function submitTweet() {
 
 }
 
-get_tweets_for_user_by_username();
+let path = window.location.pathname.split("/")
+get_tweets_for_user_by_username(path[2]);

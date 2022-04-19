@@ -56,7 +56,7 @@ def get_tweets_for_user_by_username(username: str):
         # Create a cursor that will execute a query
         cur = db.cursor()
         # Execute query (using the cursor)
-        cur.execute("SELECT * FROM tweets WHERE username=?", (username,))
+        cur.execute("SELECT * FROM tweets WHERE username=? ORDER BY created DESC;", (username,))
         # Fetch all data (from the cursor)
         results = cur.fetchall()
 
