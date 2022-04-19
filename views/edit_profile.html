@@ -1,0 +1,144 @@
+% include("header", title=f"Twixxer - {user['firstname']} {user['lastname']}")
+% include("header", title="Twixxer")
+
+<body class="max-w-screen-xl box-border">
+
+
+    <section id="tweetModal" class="fixed w-screen h-screen z-10 hidden">
+        <div class="absolute h-full w-full bg-black bg-opacity-50" onclick="toggleTweetModal()">
+
+        </div>
+        <div class="relative z-10 bg-black rounded-lg w-1/3 h-64 mx-auto mt-20">
+
+        </div>
+    </section>
+
+
+    % # main page
+    <div class="flex w-full mx-auto xl:w-4/5">
+        % # left
+        <div class="w-1/4">
+            <div class="fixed h-screen w-1/5 px-1 lg:px-6 flex flex-col py-6">
+                <div class="">
+                    <div class="">
+                        <i class="fa-brands fa-twitter fa-fw text-4xl text-blue pl-5"></i>
+                    </div>
+                    <div class="">
+                        <div class="mt-6">
+                            <i class="fas fa-home"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="/">Home</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="far fa-user fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href='/profile/{{user["username"]}}'>Profile</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="fas fa-hashtag fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Explore</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="far fa-bell fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Notifications</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="far fa-envelope fa-fw "></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Messages</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="far fa-bookmark fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Bookmarks</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="fas fa-clipboard-list fa-fw"></i>  <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">Lists</a>
+                        </div>
+                        <div class="mt-6">
+                            <i class="fas fa-ellipsis-h fa-fw"></i>
+                            <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">More</a>
+                        </div>
+
+                        <div class="mt-6 py-6">
+                            <button onclick="logout(); location.href='/';"
+                                class="py-2 px-4 w-1/2 bg-gray-50 text-gray-700 rounded-full font-sans font-thin border border-slate-700 hover:border-blue">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-auto">
+                    <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer rounded-full">
+                        <img class="w-12 h-12 rounded-full flex-none" src="/static/images/placeholder.png">
+                        <div class="flex-1 overflow-ellipsis">
+                            <p>{{ user["firstname"] }} {{ user["lastname"] }}</p>
+                            <p class="font-thin">@{{user["username"]}}</p>
+                        </div>
+                        <button class="py-2 px-4 bg-white rounded-full">
+                            ...
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        % # end left
+
+        % # center
+        <div class="w-2/4 min-h-screen border-x border-gray-300">
+            <!-- Here comes the profile-->
+            <div class="h-52 bg-slate-600" alt="cover pic"></div>
+            <div class="rounded-full w-36 h-36 bg-white ml-4 -mt-20">
+                <img class="rounded-full p-1" src="/static/images/pinkbanana.jpg" alt="profile pic">
+            </div>
+            <div id="whole stuff" class="ml-4">
+                <p class="font-bold">{{ user["firstname"] }} {{ user["lastname"] }}</p>
+                <p class="font-thin">@{{user["username"]}}</p>
+
+                <div class="max-h-full flex">
+                    <div id="signupform" class="pt-16" >
+                        <div class="mb-8">
+                            <h2 class="font-bold text-3xl">Join twixxer today</h2>
+                        </div>
+
+                        <form action="/profile/{{user['username']}}" method="post" class="form">
+                            <input class="mt-1 ml-1 py-1 px-4 w-1/2 border focus:outline outline-offset-0 outline-blue" name="user_firstname" type="text" class="form-control" placeholder="Firstname" required="required" value="{{user['firstname']}}">
+                            <input class="mt-1 ml-1 py-1 px-4 w-1/2 border focus:outline outline-offset-0 outline-blue" name="user_lastname" type="text" class="form-control" placeholder="Lastname" required="required" value="{{user['lastname']}}">
+                            <input class="mt-1 ml-1 py-1 px-4 w-1/2 border focus:outline outline-offset-0 outline-blue" name="user_email" type="text" class="form-control" placeholder="Email" required="required" pattern='(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))' value="{{user['email']}}">
+                            <button class="my-5 py-2 px-4 w-1/2 bg-blue rounded-full text-gray-700 font-sans font-bold" type="submit"><a class="text-gray-700 font-sans font-bold">Update</a></button>
+                        </form>
+
+                        <form action="/profile/{{user['username']}}/password" method="post" class="form">
+                            <input class="mt-1 ml-1 py-1 px-4 w-1/2 border focus:outline outline-offset-0 outline-blue" name="user_password" type="password" class="form-control" placeholder="Password">
+                            <button class="my-5 py-2 px-4 w-1/2 bg-blue rounded-full text-gray-700 font-sans font-bold" type="submit"><a class="text-gray-700 font-sans font-bold">Update Password</a></button>
+                        </form>
+
+
+
+                        <div class="max-w-xs">
+                            <p class="pt-2 text-xs ">By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        % # end center
+
+
+
+<!--TODO: add picture, make dynamic links, filter tweets by user-->
+
+
+        % # right
+        <div class="w-1/4 h-screen hidden lg:block flex-col">
+            <div class="w-1/5 fixed h-screen gap-4 py-4 pl-4">
+
+
+            </div>
+        </div>
+        % # end right
+
+
+    </div>
+    % # end page
+
+
+    % include("footer")

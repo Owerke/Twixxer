@@ -149,7 +149,7 @@ def create_user_by_properties(id: str, username: str, firstname: str, lastname: 
     }
     return create_user(user)
 
-def change_user_details(username: str, new_username: str, new_firstname: str, new_lastname: str, new_email: str):
+def change_user_details(username: str, new_firstname: str, new_lastname: str, new_email: str):
     """Update user details. Returns `True` if successful, `False` if it failed."""
     try:
         # Connect to database
@@ -159,13 +159,12 @@ def change_user_details(username: str, new_username: str, new_firstname: str, ne
         # Execute query with the values from the details. We update the user with 'username'.
         cur.execute("""UPDATE users
                     SET
-                        username = ?,
                         firstname = ?,
                         lastname = ?,
                         email = ?
                     WHERE username = ?;
                     """,
-                    (new_username, new_firstname, new_lastname, new_email, username))
+                    (new_firstname, new_lastname, new_email, username))
         # Save changes (basically actually execute the insert query)
         db.commit()
         # Return True if everything is good. (if not, then it will throw an exception)

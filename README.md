@@ -115,7 +115,7 @@ Every part that you should have a SPA can be done as a normal page, this means r
   - It is a SPA, the page should not reload
 - [ ] Update tweet
   - It is a SPA, the page should not reload
-- [ ] See pages from other users
+- [X] See pages from other users
   - A simple page that doesn't have to be a SPA, but you can if you want to
 - [ ] Must be able to upload an image somewhere in the system
 
