@@ -6,6 +6,8 @@ import authentication
 import db.db_users as Db_users
 from models.user import User
 from models.jwt import Jwt_data
+import api.api_email
+
 import re
 
 @get("/signup")
@@ -41,8 +43,17 @@ def post_signup():
     user_lastname = request.forms.get("user_lastname")
     user_username = request.forms.get("user_username")
 
-    if not re.match(common.REGEX_EMAIL, user_email):
-        return "not valid email address"
+    if not user_firstname or not user_lastname:
+        return redirect("/signup?error=missing input")
+
+    if not common.is_email_valid(user_email):
+        return redirect("/signup?error=bad email")
+    if not common.is_password_valid(user_password):
+        return redirect("/signup?error=bad password")
+    if not common.is_username_valid(user_username):
+        return redirect("/signup?error=bad username")
+
+    # We don't validate first and lastname, so Elon Musk's kid can also register :)
 
     # Check if email is occupied
     user: User = Db_users.get_user_by_email(user_email)
@@ -62,14 +73,20 @@ def post_signup():
         "firstname": user_firstname,
         "lastname": user_lastname,
         "password": user_password,
-        "username": user_username
+        "username": user_username,
+        "picture_path": ""
     }
     # Create user in database
-    Db_users.create_user(user)
+
+    result = Db_users.create_user(user)
+    if not result:
+        print("Something went wrong")
+        return redirect("/signup?error")
+
     # Create a token for it for automatic login
     encoded_jwt = authentication.create_jwt_for_user(user)
     # Set JWT for auto login
     response.set_cookie(common.JWT_COOKIE, encoded_jwt)
+    # Send simple welcome signup email
+    api.api_email.send_signup_email()
     return redirect ("/login")
-
-#TODO: send email verification

@@ -5,10 +5,12 @@ This API handles all interactions with User objects, and exposes them both as a 
 """
 from datetime import datetime
 import json
+from mimetypes import common_types
 from models.jwt import Jwt_data
 from typing import List
 import uuid
 from bottle import get, post, request, HTTPResponse
+import common
 
 # All these imported modules are coded in this project
 import authentication
@@ -71,8 +73,17 @@ def create_user():
             "email": request.json.get("email"),
             "password": request.json.get("password"),
             # Creation time is the always current time (when this function runs)
-            "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
+            "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"),
+            "picture_path": ""
         }
+
+    if not common.is_username_valid(user["username"]):
+        return HTTPResponse(status=500)
+    if not common.is_username_valid(user["password"]):
+        return HTTPResponse(status=500)
+    if not common.is_username_valid(user["email"]):
+        return HTTPResponse(status=500)
+
     # Create the user in the database, using the `db` methods
     result = Db_users.create_user(user)
 

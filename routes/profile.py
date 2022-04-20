@@ -77,6 +77,9 @@ def patch_edit_user_profile(username):
     new_user_firstname = request.forms.get("user_firstname")
     new_user_lastname = request.forms.get("user_lastname")
 
+    if not common.is_email_valid(new_user_email):
+        return redirect("/signup?error=bad email")
+
     result = Db_users.change_user_details(user["username"], new_user_firstname, new_user_lastname, new_user_email)
 
     return redirect(f'/profile/{user["username"]}/edit')
@@ -97,6 +100,10 @@ def post_edit_user_password(username):
     if not user:
         return redirect("/")
     # ################################
+
+    if not common.is_password_valid(new_user_password):
+        return redirect(f'/profile/{user["username"]}/edit/error=bad password')
+
 
     new_user_password = request.forms.get("user_password")
     result = Db_users.change_user_password(user["username"], new_user_password)

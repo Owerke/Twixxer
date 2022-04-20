@@ -5,6 +5,7 @@ import db.db as db
 
 import api.api_users
 import api.api_tweet
+import api.api_email
 
 import routes.static
 import routes.feed

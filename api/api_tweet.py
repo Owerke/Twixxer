@@ -113,6 +113,10 @@ def create_tweet():
             # Creation time is the always current time (when this function runs)
             "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
         }
+
+    if not common.is_tweet_valid(tweet["content"]):
+        return HTTPResponse(status=500)
+
     # Create the user in the database, using the `db` methods
     result = Db_tweets.create_tweet(tweet)
 
@@ -175,8 +179,13 @@ def edit_tweet():
     #     "content": "xxxxxxxx"
     # }
 
+    # Read tweet id and content from HTTP Body
     tweet_id = request.json.get("id")
     tweet_content = request.json.get("content")
+
+    # Validate tweet (between 1 and 100 characters)
+    if not common.is_tweet_valid(tweet_content):
+        return HTTPResponse(status=500)
 
     # If the user tries to edit another user's tweet, we reject it.
     tweet: Tweet = Db_tweets.get_tweet_by_id(request.json.get("id"))
@@ -189,6 +198,7 @@ def edit_tweet():
     if tweet_content:
         result = Db_tweets.change_tweet_content(tweet_id, tweet_content)
 
+    # Get the updated tweet by ID
     tweet: Tweet = Db_tweets.get_tweet_by_id(tweet_id)
 
     # If we can't create it, return error 500
@@ -196,5 +206,3 @@ def edit_tweet():
         return HTTPResponse(status=500)
 
     return HTTPResponse(status=200, body=tweet)
-
-#TODO: edit/update tweet
