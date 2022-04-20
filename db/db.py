@@ -50,7 +50,6 @@ def initialize_database():
                     "id" TEXT NOT NULL PRIMARY KEY,
                     "username" TEXT NOT NULL,
                     "content" TEXT,
-                    "banner_id" TEXT,
                     "created" TEXT NOT NULL,
                     FOREIGN KEY(username) REFERENCES users(username)
                 );
@@ -80,11 +79,11 @@ def create_dummy_data():
     else:
         print("Andor is already in the database")
 
-    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We now accept dogecoin at Tesla", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
-    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We no longer accept dogecoin at Tesla", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
-    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I am going into space.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
-    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "And now I am rich.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
-    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I came back from space.", "", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We now accept dogecoin at Tesla", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We no longer accept dogecoin at Tesla", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I am going into space.", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "And now I am rich.", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "daddybezos", "I came back from space.", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
 
 tabs = [
     {"icon": "fas fa-home fa-fw", "title": "Home", "id":"home"},

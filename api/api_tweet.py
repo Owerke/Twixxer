@@ -61,6 +61,31 @@ def get_tweets_for_user_by_username(username):
 
     return HTTPResponse(status=200, body=json.dumps(tweets))
 
+@get(f"/api/tweet/<id>")
+def get_tweets_by_id(id):
+    """HTTP GET: Get tweet by id"""
+    ####### Authentication - only allow this if you have a valid JWT ###########
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+    ############################################################################
+
+
+    # Query the database "layer" (which will actually get the data from the database) and get the tweets from the user
+    tweets: List[Tweet] = Db_tweets.get_tweet_by_id(id);
+    # If we can't find the user, return a 404 code. Otherwise return the user object
+    if not tweets:
+        return HTTPResponse(status=404, body="This tweet does not exist")
+
+    return HTTPResponse(status=200, body=json.dumps(tweets))
+
+
 
 # This may not be used at all, but we won't delete it, just in case.
 @post(f"/api/tweet")
@@ -85,7 +110,6 @@ def create_tweet():
             # Generate UUID
             "id" : str(uuid.uuid1()),
             "content": request.json.get("content"),
-            "banner_id":request.json.get("banner_id"),
             # Creation time is the always current time (when this function runs)
             "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
         }
@@ -147,15 +171,12 @@ def edit_tweet():
 
     # We expect something like this to recieve in the json from javascript:
     # {
-    #     "id": "xxxxxxx-xxxxxxx-xxxxxx",
+    #     "id": "xxxxxxx-xxxxxxxx-xxxxxxx"
     #     "content": "xxxxxxxx"
-    #     "banner_id": "xxxxxxx-xxxxxxxx-xxxxxxx"
     # }
 
     tweet_id = request.json.get("id")
     tweet_content = request.json.get("content")
-    # TODO: Implement banner upload, and upload it here too or something like that.
-    tweet_banner_id = request.json.get("banner_id")
 
     # If the user tries to edit another user's tweet, we reject it.
     tweet: Tweet = Db_tweets.get_tweet_by_id(request.json.get("id"))
@@ -167,10 +188,6 @@ def edit_tweet():
     # We only edit content if we get a new content
     if tweet_content:
         result = Db_tweets.change_tweet_content(tweet_id, tweet_content)
-
-    # We only edit the banner if we get a new banner
-    if tweet_banner_id:
-        result = Db_tweets.change_tweet_banner_id(tweet_id, tweet_banner_id)
 
     tweet: Tweet = Db_tweets.get_tweet_by_id(tweet_id)
 

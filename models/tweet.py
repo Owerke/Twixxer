@@ -7,5 +7,4 @@ class Tweet(TypedDict):
     id: str
     username: str
     content: str
-    banner_id: str
     created: str

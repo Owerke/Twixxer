@@ -33,7 +33,6 @@ def get_tweets():
             tweet: Tweet = {
                 'id': result["id"],
                 'username': result["username"],
-                'banner_id': result["banner_id"],
                 'content': result["content"],
                 'created': result["created"]
             }
@@ -73,7 +72,6 @@ def get_tweets_for_user_by_username(username: str):
             tweet: Tweet = {
                 'id': result["id"],
                 'username': result["username"],
-                'banner_id': result["banner_id"],
                 'content': result["content"],
                 'created': result["created"]
             }
@@ -107,7 +105,6 @@ def get_tweet_by_id(tweet_id: str):
         tweet: Tweet = {
             'id': result["id"],
             'username': result["username"],
-            'banner_id': result["banner_id"],
             'content': result["content"],
             'created': result["created"]
         }
@@ -126,7 +123,7 @@ def create_tweet(tweet: Tweet):
         # Get the cursor (that will execute the query)
         cur = db.cursor()
         # Execute query with the values from the User object.
-        cur.execute("INSERT INTO tweets VALUES (?, ?, ?, ?, ?)", (tweet["id"], tweet["username"], tweet["content"], tweet["banner_id"], tweet["created"]))
+        cur.execute("INSERT INTO tweets VALUES (?, ?, ?, ?)", (tweet["id"], tweet["username"], tweet["content"], tweet["created"]))
         # Save changes (basically actually execute the insert query)
         db.commit()
         # Return True if everything is good. (if not, then it will throw an exception)
@@ -136,13 +133,12 @@ def create_tweet(tweet: Tweet):
         print(e)
         return False
 
-def create_tweet_by_properties(id: str, username: str, content: str, banner_id: str, created: str):
+def create_tweet_by_properties(id: str, username: str, content: str, created: str):
     """Create a user in the database by individual properties. Returns `True` if successful, `False` if it failed."""
     tweet: Tweet = {
         "id": id,
         "username": username,
         "content": content,
-        "banner_id": banner_id,
         "created": created
     }
     return create_tweet(tweet)
@@ -169,33 +165,6 @@ def change_tweet_content(tweet_id: str, new_content: str):
     except Exception as e:
         print(e)
         return False
-
-def change_tweet_banner_id(tweet_id: str, new_banner_id: str):
-    """Update the banner_id of a tweet. Returns `True` if successful, `False` if it failed."""
-    try:
-        # Connect to database
-        db = Db._db_connect(common.DB_NAME)
-        # Get the cursor (that will execute the query)
-        cur = db.cursor()
-        # Execute query with the values from the details. We update the user with 'username'.
-        cur.execute("""UPDATE tweets
-                    SET
-                        banner_id = ?,
-                    WHERE tweet_id = ?;
-                    """,
-                    (new_banner_id, tweet_id))
-        # Save changes (basically actually execute the insert query)
-        db.commit()
-        # Return True if everything is good. (if not, then it will throw an exception)
-        return True
-    # In case of error, just return False
-    except Exception as e:
-        print(e)
-        return False
-
-def set_tweet_banner(tweet_id, banner):
-    # TODO: do functionality for uploading and saving tweet banner
-    return None
 
 def delete_tweet(tweet_id: str):
     """Delete a tweet. Returns `True` if successful, `False` if it failed."""

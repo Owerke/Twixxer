@@ -10,10 +10,6 @@ from bottle import get, static_file
 def get_app_css():
   return static_file("app.css", root="./")
 
-# Server the entire tweet banners folder
-@get("/static/tweet-banners/<content>")
-def get_tweet_banners(content):
-  return static_file(content, root="./static/tweet-banners")
 
 # Server the entire js folder
 @get("/static/js/<content>")

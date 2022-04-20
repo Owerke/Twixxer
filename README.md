@@ -115,15 +115,15 @@ Every part that you should have a SPA can be done as a normal page, this means r
   - It is a SPA, the page should not reload
 - [ ] Update tweet
   - It is a SPA, the page should not reload
-- [X] See pages from other users
+- [x] See pages from other users
   - A simple page that doesn't have to be a SPA, but you can if you want to
-- [ ] Must be able to upload an image somewhere in the system
+- [x] Must be able to upload an image somewhere in the system
 
 **System must:**
 
 - [ ] Admin panel
   - This is a "stand-alone" feature. This means that it doesn't have to be part of the twitter application, but can be a whole different solution. The administrator can see all tweets and delete them if wanted. It is a SPA, so deleting a tweet doesn't reload the whole page.
-- [ ] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH, update profil? like?)
+- [x] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH, update profil? like?)
 - [ ] look like twitter using any CSS library or plain CSS.
   - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
 - [ ] Have back-end validation
@@ -142,4 +142,4 @@ Every part that you should have a SPA can be done as a normal page, this means r
 - [ ] Follow someone - It is a SPA, the page should not reload
 - [ ] Optional - Send an email when the user creates an account (Sign up). This feature may or may not work in PythonAnywhere. If it fails on PythonAnywhere, just make sure you can send the email from localhost/127.0.0.1
 - [ ] Search for user
-- [ ] Update user profile
+- [X] Update user profile

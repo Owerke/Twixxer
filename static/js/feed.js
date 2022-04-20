@@ -3,6 +3,12 @@
 const jwt = getJWTFromCookie();
 const jwt_data = parseJwt(jwt);
 
+let currentEditingTweet = {
+    "id": "",
+    "content": ""
+};
+
+
 
 async function deleteTweet(tweet_id) {
     console.log(tweet_id);
@@ -22,16 +28,14 @@ async function deleteTweet(tweet_id) {
 }
 
 function htmlAddTweetToFeed(tweet, position = "beforeend") {
-    let banner = "";
-    if (tweet.banner_id != ""){
-        banner = `<img id="tweet-banner-${tweet.banner_id} class="mt-2 w-full object-cover h-80" src="/static/tweet-banners/${tweet.banner_id}">`;
-    }
     let deleteIcon = "";
+    let editIcon = "";
     if (jwt_data.username == tweet.username) {
         deleteIcon = `<button type='button' onclick="deleteTweet('${tweet.id}')"><i class="cursor-pointer fa-solid fa-trash-can"></i></button>`;
+        editIcon = `<button type='button' onclick="toggleTweetModal('${tweet.id}')"><i class="fa-solid fa-pen-to-square"></i></button>`;
     }
 
-    if (tweet.user_profile_picture_path == "") {
+    if (tweet.user_profile_picture_path == "" || tweet.user_profile_picture_path == null) {
         tweet.user_profile_picture_path = "placeholder.png"
     }
 
@@ -43,16 +47,16 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
                 <p class="font-bold">
                 <a href='/profile/${tweet.username}'>@${tweet.username}</a> (Created at ${tweet.created})
                 </p>
-                <div class="pt-2">
+                <div class="pt-2" id="tweet_content-${tweet.id}">
                     ${tweet.content}
                 </div>
-                    ${banner}
                 <div class="flex gap-12 w-full mt-4 text-lg">
                     <button type='button' onclick="" class="ml-auto"><i class="cursor-pointer fa-solid fa-message"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-heart"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-retweet"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-share-nodes"></i></button>
                     ${deleteIcon}
+                    ${editIcon}
                 </div>
             </div>
         </div>
@@ -112,8 +116,7 @@ async function submitTweet() {
     let tweet_content = document.getElementById("txt-tweet").value;
 
     const tweet = {
-        "content": tweet_content,
-        "banner_id": ""
+        "content": tweet_content
     };
 
     const connection = await fetch(`/api/tweet`, {
@@ -132,6 +135,65 @@ async function submitTweet() {
     const createdTweet = JSON.parse(await connection.text());
     htmlAddTweetToFeed(createdTweet, "afterbegin");
 
+}
+
+async function editTweet() {
+    currentEditingTweet.content = document.getElementById("tweet-modal-text").value;
+
+    const connection = await fetch(`/api/tweet`, {
+        method: "PATCH",
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(currentEditingTweet)
+    });
+    if (!connection.ok) {
+        alert("uppps... try again");
+        return;
+    }
+    const createdTweet = JSON.parse(await connection.text());
+
+    document.getElementById(`tweet_content-${createdTweet.id}`).innerText = createdTweet.content
+    document.getElementById("tweetModal").classList.add("hidden");
+
+}
+
+
+async function toggleTweetModal(tweet_id) {
+    let tweetModal = document.getElementById("tweetModal");
+    tweetModal.classList.toggle("hidden");
+    tweetModal = document.getElementById("tweetModal");
+
+    // Check if tweet ID undefined https://stackoverflow.com/questions/858181/how-to-check-a-not-defined-variable-in-javascript
+    // This is when we close the modal window.
+    if (tweet_id == null) {
+        // Empty all values for later reuse (in case someone clicks a different edit button)
+        document.getElementById("tweet-modal-text").value = "";
+        currentEditingTweet.content = "";
+        currentEditingTweet.id = "";
+        return;
+    }
+
+    // Get the tweet from the database
+    const connection = await fetch(`/api/tweet/${tweet_id}`, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${jwt}`
+        }
+    });
+    if (!connection.ok) {
+        alert("uppps...try again");
+        return;
+    }
+
+    // Parse the string into a json
+    const tweet = JSON.parse(await connection.text());
+    document.getElementById("tweet-modal-text").value = tweet.content;
+
+    // Store the currently editing tweet details so we can replace the content in HTML too.
+    currentEditingTweet.content = tweet.content;
+    currentEditingTweet.id = tweet.id;
 }
 
 getTweets();

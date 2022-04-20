@@ -22,10 +22,6 @@ async function deleteTweet(tweet_id) {
 }
 
 function htmlAddTweetToFeed(tweet, position = "beforeend") {
-    let banner = "";
-    if (tweet.banner_id != ""){
-        banner = `<img id="tweet-banner-${tweet.banner_id} class="mt-2 w-full object-cover h-80" src="/static/tweet-banners/${tweet.banner_id}">`;
-    }
     let deleteIcon = "";
     if (jwt_data.username == tweet.username) {
         deleteIcon = `<button type='button' onclick="deleteTweet('${tweet.id}')"><i class="cursor-pointer fa-solid fa-trash-can"></i></button>`;
@@ -47,7 +43,6 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
                 <div class="pt-2">
                     ${tweet.content}
                 </div>
-                    ${banner}
                 <div class="flex gap-12 w-full mt-4 text-lg">
                     <button type='button' onclick="" class="ml-auto"><i class="cursor-pointer fa-solid fa-message"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-heart"></i></button>
@@ -115,8 +110,7 @@ async function submitTweet() {
     let tweet_content = document.getElementById("txt-tweet").value;
 
     const tweet = {
-        "content": tweet_content,
-        "banner_id": ""
+        "content": tweet_content
     };
 
     const connection = await fetch(`/api/tweet`, {
