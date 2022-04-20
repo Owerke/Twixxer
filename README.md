@@ -126,8 +126,8 @@ Every part that you should have a SPA can be done as a normal page, this means r
 - [x] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH, update profil? like?)
 - [x] look like twitter using any CSS library or plain CSS.
   - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
-- [ ] Have back-end validation
-- [ ] Have front-end validation
+- [x] Have back-end validation
+- [x] Have front-end validation
   - Use any library you want, or create your own
 - [x] Keep the data in lists and/or dictionaries. I suggest you use SQLite
 - [ ] Uploaded to PythonAnywhere

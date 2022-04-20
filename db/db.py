@@ -64,6 +64,11 @@ def initialize_database():
 def create_dummy_data():
     """Create some dummy data for easier testing. If the data is already there, don't create it"""
 
+    if not Db_users.get_user_by_username("admin"):
+        Db_users.create_user_by_properties(str(uuid.uuid1()), "admin", "Twixxer", "admin", "admin@twixxer.com", "admin", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
+    else:
+        print("Admin is already in the database")
+
     if not Db_users.get_user_by_username("elonmusk"):
         Db_users.create_user_by_properties(str(uuid.uuid1()), "elonmusk", "Elon", "Musk", "elon@tesla.com", "teslaisawesome", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
     else:
@@ -78,6 +83,7 @@ def create_dummy_data():
         Db_users.create_user_by_properties(str(uuid.uuid1()), "andor123", "Andor", "Nagy", "a@a.com", "pass1", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
     else:
         print("Andor is already in the database")
+
 
     Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We now accept dogecoin at Tesla", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))
     Db_tweets.create_tweet_by_properties(str(uuid.uuid1()), "elonmusk", "We no longer accept dogecoin at Tesla", datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"))

@@ -1,7 +1,25 @@
-% include("header", title="Twixxer Admin")
+% include("header", title="Admin")
 
-    <h1>admin page fuckers</a>
-        <h3>Welcome {{user["firstname"]}} to the MINIVERSE. The email you logged in with is {{user["email"]}} </h3>
-    </h1>
+
+% # main page
+<div class="flex w-full mx-auto xl:w-4/5">
+
+
+
+<!--MAke search work. add pictures. -->
+    % # center
+    <div class="w-2/4 min-h-screen border-x border-gray-300">
+
+
+        <div id="tweets" class="voices mt-4">
+            <!-- This is where we JS all the tweets into -->
+        </div>
+    </div>
+    % # end center
+
+</div>
+% # end page
+
+<script src="/static/js/admin.js"></script>
 
 % include("footer")

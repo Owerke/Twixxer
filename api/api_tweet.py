@@ -146,7 +146,8 @@ def delete_tweet(tweet_id):
     if not tweet:
         return HTTPResponse(status=404, body="Can't find tweet")
 
-    if tweet["username"] != token["username"]:
+    # the tweet's owner can delete the tweet, or the "admin" user
+    if tweet["username"] != token["username"] and token["username"] != "admin":
         return HTTPResponse(status=403, body="You don't have permission to delete someone else's tweet")
 
     # Delete tweet

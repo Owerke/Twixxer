@@ -16,6 +16,11 @@ def get_admin():
     user: User = Db_users.get_user_by_email(jwt_data["email"])
     if not user:
         return redirect("/login")
+
+    # Only the admin can login.
+    if user["username"] != "admin":
+        return redirect("/login")
+
     user["password"] = "" # We don't want to send the passowrd to the user, so we just make it empty
     return dict(user=user)
 
