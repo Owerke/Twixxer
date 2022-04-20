@@ -31,7 +31,6 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
         tweet.user_profile_picture_path = "placeholder.png"
     }
 
-
     let htmlTweetTemplate = `
     <div id="tweet-${tweet.id}" class="p-4 border-t border-slate-200">
         <div class="flex">
@@ -45,10 +44,10 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
                 </div>
                 <div class="flex gap-12 w-full mt-4 text-lg">
                     <button type='button' onclick="" class="ml-auto"><i class="cursor-pointer fa-solid fa-message"></i></button>
+                    ${deleteIcon}
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-heart"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-retweet"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-share-nodes"></i></button>
-                    ${deleteIcon}
                 </div>
             </div>
         </div>

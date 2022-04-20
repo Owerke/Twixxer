@@ -1,5 +1,7 @@
 "use strict";
 
+const validate_error_color = "rgba(240, 130, 240, 0.2)"
+
 function validate_email(email) {
     let re = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
     // If the email is a match, return true.
@@ -35,7 +37,6 @@ function validate_integer_range(number, minValue, maxValue) {
 function validate(callback) {
     const form = event.target
     console.log(form)
-    const validate_error_color = "rgba(240, 130, 240, 0.2)"
     get_all_elements("[data-validate]", form).forEach(function (element) {
         element.classList.remove("validate_error")
         element.style.backgroundColor = "white"

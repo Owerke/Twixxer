@@ -13,7 +13,7 @@
 
             <input name="tweet_text" id="tweet-modal-text"
                 class="w-full h-12 p-7 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
-                placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100">
+                placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100" maxlength="100">
 
             <button type='button' onclick="editTweet()"
                 class="absolute bottom-2 right-2 px-8 py-2 bg-blue text-white rounded-full" data-default="Tweet"
@@ -116,7 +116,7 @@
                     characters</label>
                 <input name="tweet_text" id="txt-tweet"
                     class="w-full h-12 p-4 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
-                    placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100">
+                    placeholder="What is in your mind ?" data-validate="str" data-min="1" data-max="100" maxlength="100">
                 <button type='button' onclick="submitTweet()"
                     class="absolute bottom-2 right-2 px-8 py-2 bg-blue text-white rounded-full" data-default="Tweet"
                     data-await="Tweeting...">

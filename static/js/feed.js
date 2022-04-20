@@ -52,11 +52,11 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
                 </div>
                 <div class="flex gap-12 w-full mt-4 text-lg">
                     <button type='button' onclick="" class="ml-auto"><i class="cursor-pointer fa-solid fa-message"></i></button>
+                    ${deleteIcon}
+                    ${editIcon}
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-heart"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-retweet"></i></button>
                     <button type='button' onclick=""><i class="cursor-pointer fa-solid fa-share-nodes"></i></button>
-                    ${deleteIcon}
-                    ${editIcon}
                 </div>
             </div>
         </div>
@@ -113,7 +113,23 @@ async function getTweets() {
 }
 
 async function submitTweet() {
-    let tweet_content = document.getElementById("txt-tweet").value;
+
+    let txt_tweet = document.getElementById("txt-tweet")
+    let tweet_content = txt_tweet.value;
+
+    // Validate input via JS
+    const data_min = parseInt(txt_tweet.getAttribute("data-min"))
+    const data_max = parseInt(txt_tweet.getAttribute("data-max"))
+
+    if (!validate_text_length(tweet_content, data_min, data_max)) {
+        txt_tweet.classList.add("validate_error");
+        txt_tweet.style.backgroundColor = validate_error_color;
+        return;
+    }
+
+    txt_tweet.classList.remove("validate_error");
+    txt_tweet.style.backgroundColor = "initial";
+    // ---------------------------
 
     const tweet = {
         "content": tweet_content
@@ -138,7 +154,24 @@ async function submitTweet() {
 }
 
 async function editTweet() {
-    currentEditingTweet.content = document.getElementById("tweet-modal-text").value;
+    let txt_tweet = document.getElementById("tweet-modal-text")
+    currentEditingTweet.content = txt_tweet.value;
+
+    let tweet_content = txt_tweet.value;
+
+    // Validate input via JS
+    const data_min = parseInt(txt_tweet.getAttribute("data-min"))
+    const data_max = parseInt(txt_tweet.getAttribute("data-max"))
+
+    if (!validate_text_length(tweet_content, data_min, data_max)) {
+        txt_tweet.classList.add("validate_error");
+        txt_tweet.style.backgroundColor = validate_error_color;
+        return;
+    }
+
+    txt_tweet.classList.remove("validate_error");
+    txt_tweet.style.backgroundColor = "initial";
+    // ---------------------------
 
     const connection = await fetch(`/api/tweet`, {
         method: "PATCH",

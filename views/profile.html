@@ -96,7 +96,13 @@
                     <img class="rounded-full p-1" src="/static/images/profiles/placeholder.png">
                 % end
 
+
             </div>
+
+            <div>
+                <a href="/profile/{{user['username']}}/edit">Edit profile</a>
+            </div>
+
             <div id="whole stuff" class="ml-4">
                 <p class="font-bold">{{ user["firstname"] }} {{ user["lastname"] }}</p>
                 <p class="font-thin">@{{user["username"]}}</p>
