@@ -12,7 +12,7 @@ Requirements:
 
 Running the program (from PowerShell on Windows):
 
-Create a new Python VENV (if you already have one, skip this step):
+Create a new Python VENV:
 ```
 python -m venv .
 ```
@@ -29,9 +29,9 @@ pip3 install -r requirements.txt
 
 Run the application using the VENV Python app.
 ```
-./Scripts/python.exe app.py
+python app.py
 ```
-*Note: If you set the Python Interpreter to this `python.exe` (which is in the VENV) in VSCode, you'll get proper debugging functionality inside the VENV.*
+
 
 ### Install and run TailwindCSS
 
@@ -123,7 +123,7 @@ Every part that you should have a SPA can be done as a normal page, this means r
 
 - [x] Admin panel
   - This is a "stand-alone" feature. This means that it doesn't have to be part of the twitter application, but can be a whole different solution. The administrator can see all tweets and delete them if wanted. It is a SPA, so deleting a tweet doesn't reload the whole page.
-- [x] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (SEARCH, update profil? like?)
+- [x] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (email sending, update profile, using databases)
 - [x] look like twitter using any CSS library or plain CSS.
   - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
 - [x] Have back-end validation
@@ -137,9 +137,9 @@ Every part that you should have a SPA can be done as a normal page, this means r
 - [x] Use try-except
 - [x] Use regular expressions when needed
 
-### Optional
+### Optional 
 
-- [ ] Follow someone - It is a SPA, the page should not reload
 - [x] Optional - Send an email when the user creates an account (Sign up). This feature may or may not work in PythonAnywhere. If it fails on PythonAnywhere, just make sure you can send the email from localhost/127.0.0.1
-- [ ] Search for user
-- [X] Update user profile
+- [x] Update user profile
+- [x] Use a database if you want to, this is optional
+- [ ] Follow someone - It is a SPA, the page should not reload

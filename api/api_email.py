@@ -32,7 +32,7 @@ def send_signup_email():
     <html>
         <body>
         <p>
-            Welcome to Twixxer!<br>
+            Welcome to Twixxer!!!<br>
             <b style="color: blue;">Keep it Twixxin! Or else get Twixxed.</b><br>
         </p>
         </body>
