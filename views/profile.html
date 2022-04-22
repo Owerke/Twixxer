@@ -99,11 +99,14 @@
 
             </div>
 
-            <div>
+            <div class="ml-4 mt-4">
+                <button class="py-2 px-4 w-1/4 bg-gray-50 text-gray-700 rounded-full font-sans font-thin border border-slate-700 hover:border-blue">
                 <a href="/profile/{{user['username']}}/edit">Edit profile</a>
+                </button>
+
             </div>
 
-            <div id="whole stuff" class="ml-4">
+            <div id="whole stuff" class="ml-4 mt-4">
                 <p class="font-bold">{{ user["firstname"] }} {{ user["lastname"] }}</p>
                 <p class="font-thin">@{{user["username"]}}</p>
                 <div class="flex flex-row">
@@ -134,6 +137,10 @@
             <!--<div id="tweets" class="voices mt-4"> This is where we JS all the tweets into </div>-->
         </div>
         % # end center
+
+
+
+<!--TODO: add picture, make dynamic links, filter tweets by user-->
 
 
         % # right
