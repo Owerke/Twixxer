@@ -1,13 +1,15 @@
 "use strict"
 
+// we store the jwt cookie in this key in the browser cookies
 const jwt_cookie = "user_session_jwt"
 
 function get_all_elements(q, e = document) { return e.querySelectorAll(q) }
 function get_one_element(q, e = document) { return e.querySelector(q) }
 
-
+// Read cookies in javascript.
+// Source: https://www.w3schools.com/js/js_cookies.asp
 function getCookie(cname) {
-    // Source: https://www.w3schools.com/js/js_cookies.asp
+    // Not exactly sure why and how it works, but it does, and w3schools also said so :)
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -23,10 +25,13 @@ function getCookie(cname) {
     return "";
 }
 
+// Expire and remove cookie from the cookies
 function delete_cookie(name, path = "/") {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`;
-  }
+}
 
+// Convert jwt into JSON object, so we can get details from it
+// Source: https://stackoverflow.com/a/38552302
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -37,69 +42,73 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 };
 
+// Read the JWT from the cookies
 function getJWTFromCookie() {
     return getCookie(jwt_cookie)
 }
 
+// Logging out is basically just deleting the JWT from the cookies
 function logout() {
     delete_cookie(jwt_cookie)
 }
 
+// Toggle the tweet editor modal window to show and hide
 function toggleTweetModal() {
     get_one_element("#tweetModal").classList.toggle("hidden")
 }
 
+// This is not used
+//
+// async function sendTweet() {
+//     const form = event.target
+//     // Get the button, set the data-await, and disable it
+//     const button = get_one_element("button[type='submit']", form)
+//     console.log(button)
+//     button.innerText = button.dataset.await
+//     // button.innerText = button.getAttribute("data-await")
+//     button.disabled = true
+//     const connection = await fetch("/api-create-tweet", {
+//         method: "POST",
+//         body: new FormData(form)
+//     })
 
+//     button.disabled = false
+//     button.innerText = button.dataset.default
 
-async function sendTweet() {
-    const form = event.target
-    // Get the button, set the data-await, and disable it
-    const button = get_one_element("button[type='submit']", form)
-    console.log(button)
-    button.innerText = button.dataset.await
-    // button.innerText = button.getAttribute("data-await")
-    button.disabled = true
-    const connection = await fetch("/api-create-tweet", {
-        method: "POST",
-        body: new FormData(form)
-    })
+//     if (!connection.ok) {
+//         return
+//     }
+//     const tweet_id = await connection.text() // tweet id will be here
+//     // Success
+//     let tweet = `
+//     <div id="${tweet_id}" class="p-4 border-t border-slate-200">
+//     <div class="flex">
+//         <img class="flex-none w-12 h-12 rounded-full" src="/images/1.jpg" alt="">
+//         <div class="w-full pl-4">
+//         <p class="font-bold">
+//             @xxx
+//         </p>
+//         <p class="font-thin">
+//             aaa bbb
+//         </p>
+//         <div class="pt-2">
+//             ${get_one_element("input", form).value}
+//         </div>
+//         <div class="flex gap-12 w-full mt-4 text-lg">
+//             <i onclick="delete_tweet('${tweet_id}')" class="fas fa-trash ml-auto"></i>
+//             <i class="fa-solid fa-message"></i>
+//             <i class="fa-solid fa-heart"></i>
+//             <i class="fa-solid fa-retweet"></i>
+//             <i class="fa-solid fa-share-nodes"></i>
+//         </div>
+//         </div>
+//     </div>
+//     </div>
+//     `
+//     get_one_element("input", form).value = ""
 
-    button.disabled = false
-    button.innerText = button.dataset.default
+//     get_one_element("#tweets").insertAdjacentHTML("afterbegin", tweet)
 
-    if (!connection.ok) {
-        return
-    }
-    const tweet_id = await connection.text() // tweet id will be here
-    // Success
-    let tweet = `
-    <div id="${tweet_id}" class="p-4 border-t border-slate-200">
-    <div class="flex">
-        <img class="flex-none w-12 h-12 rounded-full" src="/images/1.jpg" alt="">
-        <div class="w-full pl-4">
-        <p class="font-bold">
-            @xxx
-        </p>
-        <p class="font-thin">
-            aaa bbb
-        </p>
-        <div class="pt-2">
-            ${get_one_element("input", form).value}
-        </div>
-        <div class="flex gap-12 w-full mt-4 text-lg">
-            <i onclick="delete_tweet('${tweet_id}')" class="fas fa-trash ml-auto"></i>
-            <i class="fa-solid fa-message"></i>
-            <i class="fa-solid fa-heart"></i>
-            <i class="fa-solid fa-retweet"></i>
-            <i class="fa-solid fa-share-nodes"></i>
-        </div>
-        </div>
-    </div>
-    </div>
-    `
-    get_one_element("input", form).value = ""
+// }
 
-    get_one_element("#tweets").insertAdjacentHTML("afterbegin", tweet)
-
-}
-
+//                 // 'Content-Type': 'multipart/form-data'
