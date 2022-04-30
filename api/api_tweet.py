@@ -8,8 +8,6 @@ import json
 from typing import List
 import uuid
 from bottle import route, get, post, delete, request, HTTPResponse, response
-
-# All these imported modules are coded in this project
 import common
 from models.tweet import Tweet
 from models.jwt import Jwt_data
@@ -111,7 +109,8 @@ def create_tweet():
             "id" : str(uuid.uuid1()),
             "content": request.json.get("content"),
             # Creation time is the always current time (when this function runs)
-            "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
+            "created": datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"),
+            "picture_path": ""
         }
 
     if not common.is_tweet_valid(tweet["content"]):

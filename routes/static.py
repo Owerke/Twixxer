@@ -1,15 +1,9 @@
 from bottle import get, static_file
 
-## This might not be needed at all
-# @get("/static/<content>")
-# def get_static_content(content):
-#   return static_file(content, root="./static")
-
 # Server the app.css file
 @get("/static/app.css")
 def get_app_css():
   return static_file("app.css", root="./")
-
 
 # Server the entire js folder
 @get("/static/js/<content>")
@@ -26,7 +20,10 @@ def get_static_js_content(content):
 def get_static_js_content(content):
   return static_file(content, root="./static/images/profiles")
 
-
+# Server the tweet pictures
+@get("/static/images/tweets/<content>")
+def get_static_js_content(content):
+  return static_file(content, root="./static/images/tweets")
 
 # Serve fontawesome webfonts
 @get("/static/fontawesome/webfonts/<content>")

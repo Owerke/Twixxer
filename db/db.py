@@ -51,6 +51,7 @@ def initialize_database():
                     "username" TEXT NOT NULL,
                     "content" TEXT,
                     "created" TEXT NOT NULL,
+                    "picture_path" TEXT,
                     FOREIGN KEY(username) REFERENCES users(username)
                 );
                 ''')

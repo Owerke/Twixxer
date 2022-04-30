@@ -1,8 +1,6 @@
 import imghdr
-import imp
 import os
 from typing import List
-from unittest.mock import patch
 from bottle import get, view, request, redirect, response, post
 import common
 import db.db_users as Db_users

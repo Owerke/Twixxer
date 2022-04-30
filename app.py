@@ -16,28 +16,6 @@ import routes.logout
 import routes.profile
 
 
-# TODO: Place these in the correct routes
-# #these stuff for the voices main
-# @get("/app.css")
-# def _():
-#     return static_file("app.css", root=".")
-
-# ##############################
-# @get("script/app.js")
-# def _():
-#     return static_file("app.js", root=".")
-
-# ##############################
-# @get("script/validator.js")
-# def _():
-#     return static_file("validator.js", root=".")
-
-# ##############################
-# @get("/images/<image_name>")
-# def _(image_name):
-#     return static_file(image_name, root="./images")
-# ##############################
-
 # Initialize and populate the database
 db.initialize_database()
 db.create_dummy_data()

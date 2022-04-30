@@ -5,14 +5,11 @@ This API handles all interactions with User objects, and exposes them both as a 
 """
 from datetime import datetime
 import json
-from mimetypes import common_types
 from models.jwt import Jwt_data
 from typing import List
 import uuid
 from bottle import get, post, request, HTTPResponse
 import common
-
-# All these imported modules are coded in this project
 import authentication
 from models.user import User
 import db.db_users as Db_users

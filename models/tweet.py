@@ -8,3 +8,4 @@ class Tweet(TypedDict):
     username: str
     content: str
     created: str
+    picture_path: str

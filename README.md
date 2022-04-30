@@ -24,7 +24,7 @@ Activate the Python VENV:
 
 Install all Python packages from the requirements.txt file (all python packages you need should be in this file)
 ```
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Run the application using the VENV Python app.
@@ -59,7 +59,7 @@ npx tailwindcss -i tailwindcss.css -o ../final.css --minify
 
 ## Project structure
 
-For easier code overview and structing, we separated the code into different files and folders.
+For easier code overview and structing, I separated the code into different files and folders.
 
 ### Project folders
 
@@ -72,7 +72,7 @@ For easier code overview and structing, we separated the code into different fil
 - `/db/`
   - The `db` folder contains functions that are used to interact with the database. If any code needs to query something from the database, instead of directly accessing the DB, it calls functions from this folder instead. This way if there is any change in how we interact with the database, only code in this folder will be affected, everything else is the same.
 - `/views/`
-  - The `views` folder contains the HTML codes and templates that will make this app work in a browser :)
+  - The `views` folder contains the HTML codes and templates that will make this app work in a browser 
 - `/static/`
   - The `static` folder is used to serve CSS, JS, and other assets to the frontend. The `routes/static.py` bottle route is serving all content from here.
 - `/static/js/`
@@ -130,8 +130,7 @@ Every part that you should have a SPA can be done as a normal page, this means r
 - [x] Have front-end validation
   - Use any library you want, or create your own
 - [x] Keep the data in lists and/or dictionaries. I suggest you use SQLite
-- [ ] Uploaded to PythonAnywhere
-  - https://youtu.be/HW8QoyP0pBE?t=30
+- [x] Uploaded to PythonAnywhere
 - [x] Use proper HTTP methods: GET, POST, PUT, DELETE
 - [x] Use proper status codes: 20x, 30x, 40x, 50x
 - [x] Use try-except
