@@ -168,6 +168,29 @@ def change_tweet_content(tweet_id: str, new_content: str):
         print(e)
         return False
 
+def change_tweet_picture(tweet_id: str, new_picture_path: str):
+    """Update the picture (path) of a tweet. Returns `True` if successful, `False` if it failed."""
+    try:
+        # Connect to database
+        db = Db._db_connect(common.DB_NAME)
+        # Get the cursor (that will execute the query)
+        cur = db.cursor()
+        # Execute query with the values from the details. We update the tweet with the new content.
+        cur.execute("""UPDATE tweets
+                    SET
+                        picture_path = ?
+                    WHERE id = ?;
+                    """,
+                    (new_picture_path, tweet_id))
+        # Save changes (basically actually execute the insert query)
+        db.commit()
+        # Return True if everything is good. (if not, then it will throw an exception)
+        return True
+    # In case of error, just return False
+    except Exception as e:
+        print(e)
+        return False
+
 def delete_tweet(tweet_id: str):
     """Delete a tweet. Returns `True` if successful, `False` if it failed."""
     try:

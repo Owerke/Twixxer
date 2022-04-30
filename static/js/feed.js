@@ -50,6 +50,9 @@ function htmlAddTweetToFeed(tweet, position = "beforeend") {
                 <div class="pt-2" id="tweet_content-${tweet.id}">
                     ${tweet.content}
                 </div>
+                <div class="pt-2" id="tweet_picture-${tweet.id}">
+                    <img src="/static/images/tweets/${tweet.picture_path}" alt="">
+                </div>
                 <div class="flex gap-12 w-full mt-4 text-lg">
                     <button type='button' onclick="" class="ml-auto"><i class="cursor-pointer fa-solid fa-message"></i></button>
                     ${deleteIcon}
@@ -228,5 +231,34 @@ async function toggleTweetModal(tweet_id) {
     currentEditingTweet.content = tweet.content;
     currentEditingTweet.id = tweet.id;
 }
+
+
+
+// ---------------------------- Upload tweet picture ---------------------------
+// Source https://attacomsian.com/blog/uploading-files-using-fetch-api
+const input = document.getElementById('upload-tweet-picture');
+
+// add event listener for picture selection (no submit button needed)
+input.addEventListener('change', () => {
+    // get the file from the input
+    let file = input.files[0]
+    // add file to FormData object (needed for upload)
+    const fd = new FormData();
+    fd.append('upload', file);
+
+    // send `POST` request (with authentication)
+    fetch(`/api/tweet/${currentEditingTweet.id}`, {
+            method: 'POST',
+            body: fd,
+            headers: {
+                'Authorization': `Bearer ${jwt}`,
+                // 'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(res => res.json())
+        .then(json => console.log(json))
+        .catch(err => console.error(err));
+});
+// -----------------------------------------------------------------------------
 
 getTweets();

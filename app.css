@@ -527,6 +527,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 2.75rem;
 }
 
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }

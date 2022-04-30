@@ -4,7 +4,9 @@ The Users API.
 This API handles all interactions with User objects, and exposes them both as a function, and as an HTTP route/endpoint.
 """
 from datetime import datetime
+import imghdr
 import json
+import os
 from typing import List
 import uuid
 from bottle import route, get, post, delete, request, HTTPResponse, response
@@ -206,3 +208,63 @@ def edit_tweet():
         return HTTPResponse(status=500)
 
     return HTTPResponse(status=200, body=tweet)
+
+
+@post(f"/api/tweet/<tweet_id>")
+def upload_tweet_picture(tweet_id):
+    """HTTP POST: Create tweet using HTTP POST and its JSON body."""
+    ####### Authentication - only allow this if you have a valid JWT ###########
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+    ############################################################################
+
+    # pretty much the same as profile picture editing
+
+    # Upload files: https://bottlepy.org/docs/dev/tutorial.html#file-uploads
+    save_path = "./static/images/tweets"
+
+    image = request.files.get('upload')
+    file_name, file_extension = os.path.splitext(image.filename) # .png .jpeg .jpg
+
+    # overwrite jpg to jpeg so imghdr will pass validation
+    if file_extension == ".jpg": file_extension = ".jpeg"
+    # Validate extension
+    if file_extension not in (".png", ".jpeg", ".jpg"):
+        return HTTPResponse(status=500, body="Image file format is not valid")
+
+    # Create new image name
+    image_name = f"{tweet_id}{file_extension}"
+    image_full_path = f"{save_path}/{image_name}"
+
+    try:
+        os.remove(image_full_path)
+    except:
+        print("Does not need to remove pic")
+    # Save the image
+    image.save(image_full_path)
+
+    # Make sure that the image is actually a valid image
+    # by reading its mime type
+    print("imghdr.what", imghdr.what(image_full_path))   # imghdr.what png
+    print("file_extension", file_extension) # file_extension .png
+
+    imghdr_extension = imghdr.what(image_full_path)
+    if file_extension != f".{imghdr_extension}":
+        print("mmm... suspicious ... it is not really an image")
+        # remove the invalid image from the folder
+        os.remove(image_full_path)
+        return HTTPResponse(status=500, body="It's not an image")
+
+    uploaded = Db_tweets.change_tweet_picture(tweet_id, image_name)
+
+    if not uploaded:
+        return HTTPResponse(status=500, body="Could not upload picture")
+
+    return HTTPResponse(status=200, body="Uploaded")
