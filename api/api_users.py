@@ -76,9 +76,9 @@ def create_user():
 
     if not common.is_username_valid(user["username"]):
         return HTTPResponse(status=500)
-    if not common.is_username_valid(user["password"]):
+    if not common.is_password_valid(user["password"]):
         return HTTPResponse(status=500)
-    if not common.is_username_valid(user["email"]):
+    if not common.is_email_valid(user["email"]):
         return HTTPResponse(status=500)
 
     # Create the user in the database, using the `db` methods
