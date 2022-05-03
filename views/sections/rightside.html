@@ -1,39 +1,50 @@
-% # right
-<div class="xl:w-1/5 h-screen hidden lg:block bg-slate-700">
-    <div class="w-1/5 fixed flex flex-col h-screen gap-4 py-4 pl-4">
-        <div class="h-1/2 flex-grow bg-gray-300 rounded overflow-hidden">
-            % for trend in trends:
-            <div class="flex justify-between px-2 py-1 hover:bg-gray-400 cursor-pointer">
-                <div>
-                    <p class="font-thin">{{trend["category"]}}</p>
-                    <p class="font-bold">{{trend["title"]}}</p>
-                    <p class="font-thin">{{trend["tweets_counter"]}} tweets</p>
-                </div>
-                <div>...</div>
-            </div>
-            % end
-        </div>
 
-        <div class="relative h-1/2 bg-gray-100 rounded">
-            <div class="px-2 pt-4 font-bold text-xl">
-                You might like
-            </div>
-            % for item in items:
-            <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer">
-                <img class="w-12 h-12 rounded-full flex-none" src="{{item['img']}}">
-                <div class="flex-1 overflow-ellipsis">
-                    <p>{{item["title"]}}</p>
-                    <p class="font-thin">@{{item["user_name"]}}</p>
-                </div>
-                <button class="py-2 px-4 bg-black text-white rounded-full">
-                    Follow
-                </button>
-            </div>
-            % end
-            <a href="" class="absolute bottom-0 self-end p-2 text-blue">
-                Show more
-            </a>
-        </div>
-    </div>
-</div>
-% # end right
+   % # right
+   <div class="w-1/4 h-screen hidden lg:block flex-col">
+       <div class="w-1/5 fixed h-screen gap-4 py-4 pl-4">
+
+           <div class="p-4">
+               <form class="relative" onsubmit="return false">
+                   <i class="fas fa-search absolute top-4 left-4"></i>
+                   <input
+                       class="w-full h-12 px-4 rounded-full placeholder:text-gray-700 bg-gray-100 pl-12 outline-none"
+                       type="text" placeholder="Search on Twixxer">
+               </form>
+           </div>
+
+           <div class="h-1/2 bg-gray-300 rounded overflow-hidden p-4 mb-2">
+               % for trend in trends:
+               <div class="justify-between px-2 py-1 hover:bg-gray-400 cursor-pointer">
+                   <div>
+                       <p class="font-thin">{{trend["category"]}}</p>
+                       <p class="font-bold">{{trend["title"]}}</p>
+                       <p class="font-thin">{{trend["tweets_counter"]}} tweets</p>
+                   </div>
+                   <div>...</div>
+               </div>
+               % end
+           </div>
+
+           <div class="h-1/2 bg-gray-100 rounded">
+               <div class="p-4 font-bold text-xl">
+                   You might like
+               </div>
+               % for item in items:
+               <div class="flex items-center gap-2 px-2 py-3 hover:bg-gray-200 cursor-pointer">
+                   <img class="w-12 h-12 rounded-full flex-none" src="{{item['img']}}">
+                   <div class="flex-1 overflow-ellipsis">
+                       <p>{{item["title"]}}</p>
+                       <p class="font-thin">@{{item["user_name"]}}</p>
+                   </div>
+                   <button class="py-2 px-4 bg-black text-white rounded-full">
+                       Follow
+                   </button>
+               </div>
+               % end
+               <a href="" class="absolute bottom-0 self-end p-2 text-blue">
+                   Show more
+               </a>
+           </div>
+       </div>
+   </div>
+   % # end right

@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "..\\mandatory_1"
+		},
+		{
+			"path": "C:\\Users\\nagya\\Downloads\\01_mandatory-main\\01_mandatory-main"
 		}
 	],
 	"settings": {}

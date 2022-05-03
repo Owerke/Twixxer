@@ -1,7 +1,6 @@
 % include("header", title=f"Twixxer - {user['firstname']} {user['lastname']}")
-% include("header", title="Twixxer")
 
-<body class="max-w-screen-xl box-border">
+<body class="w-full h-screen">
 
 
     <section id="tweetModal" class="fixed w-screen h-screen z-10 hidden">
@@ -13,13 +12,13 @@
         </div>
     </section>
 
-    <div class="xl:w-2/5 fixed flex flex-col h-screen gap-4 py-4 pl-4">
-        %include("sections/leftside")
-    </div>
+
 
     % # main page
-    <div class="flex w-80% mx-auto xl:w-4/5">
+    <div class="flex w-3/6 mx-auto xl:w-4/5">
 
+        % #left
+            %include("sections/leftside")
 
         % # center
         <div class="w-2/4 min-h-screen border-x border-gray-300">

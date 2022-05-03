@@ -1,6 +1,6 @@
 % include("header", title="Twixxer")
 
-<!-- <body class="w-full h-screen"> -->
+<body class="max-w-screen-xl box-border">
 
     <!-- Tweet Modal -->
 <section id="tweetModal" class="fixed w-screen h-screen z-10 hidden">
@@ -26,15 +26,14 @@
     </div>
 </section>
 
-<div class="xl:w-1/5 fixed flex flex-col h-screen gap-4 py-4 pl-4 bg-slate-500">
+% # main page
+<div class="flex w-3/6 mx-auto xl:w-4/5">
 
-    %include("sections/leftside")
+    % #left
+        %include("sections/leftside")
 
-</div>
-<div class="flex mx-auto sm:w-1/5 xl:w-3/5 bg-pink-400">
-    <!--MAke search work. add pictures. -->
     % # center
-    <div class="xl:w-3/5 min-h-screen border-x border-gray-300">
+    <div class="w-2/4 min-h-screen border-x border-gray-300">
 
         <div class="p-4">
             <form class="relative" onsubmit="return false">
@@ -72,5 +71,6 @@
 % # end page
 
 <script src="/static/js/feed.js"></script>
+</body>
 
 % include("footer")

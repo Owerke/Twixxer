@@ -1,6 +1,8 @@
 import imghdr
+import imp
 import os
 from typing import List
+from unittest.mock import patch
 from bottle import get, view, request, redirect, response, post
 import common
 import db.db_users as Db_users
@@ -99,11 +101,13 @@ def post_edit_user_password(username):
         return redirect("/")
     # ################################
 
+    new_user_password = request.forms.get("user_password")
+
     if not common.is_password_valid(new_user_password):
         return redirect(f'/profile/{user["username"]}/edit/error=bad password')
 
 
-    new_user_password = request.forms.get("user_password")
+
     result = Db_users.change_user_password(user["username"], new_user_password)
 
     return redirect(f'/profile/{user["username"]}/edit')

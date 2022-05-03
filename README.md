@@ -123,7 +123,7 @@ Every part that you should have a SPA can be done as a normal page, this means r
 
 - [x] Admin panel
   - This is a "stand-alone" feature. This means that it doesn't have to be part of the twitter application, but can be a whole different solution. The administrator can see all tweets and delete them if wanted. It is a SPA, so deleting a tweet doesn't reload the whole page.
-- [x] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (email sending, update profile, using databases)
+- [x] Choose 1 extra functionality that you find challenging/interesting in twitter and implement it (email sending, update profile info, update prfile picture, using databases)
 - [x] look like twitter using any CSS library or plain CSS.
   - We use tailwind, so welcome to do it https://www.youtube.com/watch?v=YTdE7nYMJis&t=1s
 - [x] Have back-end validation
