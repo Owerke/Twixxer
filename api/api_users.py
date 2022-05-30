@@ -15,7 +15,8 @@ import common
 # All these imported modules are coded in this project
 import authentication
 from models.user import User
-import db.db_users as Db_users
+# import db.db_users as Db_users # SQLite
+import db.mysql_users as Db_users # MySQL
 
 @get(f"/api/users")
 def get_users():

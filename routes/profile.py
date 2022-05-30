@@ -5,9 +5,12 @@ from typing import List
 from unittest.mock import patch
 from bottle import get, view, request, redirect, response, post
 import common
-import db.db_users as Db_users
-import db.db_tweets as Db_tweets
-import db.db as db
+# import db.db_users as Db_users # SQLite
+import db.mysql_users as Db_users # MySQL
+# import db.db_tweets as Db_tweets # SQLite
+import db.mysql_tweets as Db_tweets # MySQL
+# import db.db as db # SQLite
+import db.mysql_db as db # MySQL
 from models.user import User
 from models.tweet import Tweet
 from models.jwt import Jwt_data

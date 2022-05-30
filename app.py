@@ -1,7 +1,7 @@
 """Main app file, this is where the whole application runs"""
 from bottle import default_app, run
 # All these imported modules are coded in this project
-import db.db as db
+import db.mysql_db as db
 
 import api.api_users
 import api.api_tweet

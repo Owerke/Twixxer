@@ -2,7 +2,8 @@ from bottle import get, view, response, request, redirect
 import common
 import authentication
 
-import db.db_users as Db_users
+# import db.db_users as Db_users # SQLite
+import db.mysql_users as Db_users # MySQL
 from models.user import User
 
 @get("/admin")

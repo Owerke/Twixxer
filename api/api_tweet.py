@@ -14,7 +14,8 @@ import common
 from models.tweet import Tweet
 from models.jwt import Jwt_data
 import authentication
-import db.db_tweets as Db_tweets
+# import db.db_tweets as Db_tweets # SQLite
+import db.mysql_tweets as Db_tweets # MySQL
 
 @get(f"/api/tweets")
 def get_tweets():

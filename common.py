@@ -10,7 +10,10 @@ REGEX_UUID4 = "^[0-9a-f]{8}\b-[0-9a-f]{4}\b-[0-9a-f]{4}\b-[0-9a-f]{4}\b-[0-9a-f]
 JWT_SECRET = "9OzAdFhiJ44vUzK5ikTlflOgztgi45yft3C7VTK6ND2mTEhl9a"
 JWT_COOKIE = "user_session_jwt"
 
-DB_NAME = "database.sqlite"
+MY_SQL_CONNECTION = "localhost"
+MY_SQL_USERNAME = "root"
+MY_SQL_PASSWORD = ""
+DB_NAME = "twixxer"
 
 SENDGRID_API_KEY="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"
 
