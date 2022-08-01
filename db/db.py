@@ -54,6 +54,16 @@ def initialize_database():
                     FOREIGN KEY(username) REFERENCES users(username)
                 );
                 ''')
+    # Create Follows table
+    cur.execute('''CREATE TABLE IF NOT EXISTS follows
+                (
+                    "id" TEXT NOT NULL PRIMARY KEY,
+                    "follower_id" TEXT NOT NULL,
+                    "followed_id" TEXT NOT NULL,
+                    FOREIGN KEY(follower_id) REFERENCES users(id),
+                    FOREIGN KEY(followed_id) REFERENCES users(id)
+                );
+                ''')
 
     # Save (commit) the changes
     db.commit()
