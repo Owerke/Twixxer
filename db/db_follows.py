@@ -123,3 +123,86 @@ def get_followers_for_user(username: str):
     except Exception as e:
         print(e)
         return []
+
+def get_if_user_is_followed(follower_id: str, followed_id: str):
+    """Get all users that are following the user. Returns a `List[str]` object."""
+    try:
+        # Connect to database
+        db = Db._db_connect(common.DB_NAME)
+        # Create a cursor that will execute a query
+        cur = db.cursor()
+        # Execute query (using the cursor)
+        cur.execute('''
+                        SELECT *
+                        FROM follows
+                        WHERE
+                            follower_id=?
+                        AND
+                            followed_id=?
+                    ''', (follower_id, followed_id))
+        # Fetch all data (from the cursor)
+        results = cur.fetchall()
+
+        # If there are no results, we return False
+        if not results:
+            print("No results found")
+            return False
+
+        # If we found a match, we return True
+        return True
+
+    # If any error happened, then just return False
+    except Exception as e:
+        print(e)
+        return False
+
+def create_following(follow: Follow):
+    """Create a follow."""
+    try:
+        # Connect to database
+        db = Db._db_connect(common.DB_NAME)
+        # Get the cursor (that will execute the query)
+        cur = db.cursor()
+        # Execute query with the values from the User object.
+        cur.execute("INSERT INTO follows VALUES (NULL, ?, ?)", (follow["follower_id"], follow["followed_id"]))
+        # Save changes (basically actually execute the insert query)
+        db.commit()
+        # Return True if everything is good. (if not, then it will throw an exception)
+        return True
+    # In case of error, just return False
+    except Exception as e:
+        print(e)
+        return False
+
+def create_following_by_properties(follower_id: str, followed_id: str):
+    """Create a follow."""
+    follow: Follow = {
+        "follower_id": follower_id,
+        "followed_id": followed_id
+    }
+    return create_following(follow)
+
+def delete_following(follower_id: str, followed_id: str):
+    """Delete a follow. Unfollow someone"""
+    try:
+        # Connect to database
+        db = Db._db_connect(common.DB_NAME)
+        # Get the cursor (that will execute the query)
+        cur = db.cursor()
+        # Execute query with the values from the details.
+        cur.execute("""DELETE FROM follows
+                    WHERE follower_id = ?
+                    AND
+                    followed_id = ?
+                    ;
+                    """,
+                    (follower_id, followed_id)
+                    )
+        # Save changes (basically actually execute the insert query)
+        db.commit()
+        # Return True if everything is good. (if not, then it will throw an exception)
+        return True
+    # In case of error, just return False
+    except Exception as e:
+        print(e)
+        return False

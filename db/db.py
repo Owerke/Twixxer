@@ -57,7 +57,7 @@ def initialize_database():
     # Create Follows table
     cur.execute('''CREATE TABLE IF NOT EXISTS follows
                 (
-                    "id" TEXT NOT NULL PRIMARY KEY,
+                    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                     "follower_id" TEXT NOT NULL,
                     "followed_id" TEXT NOT NULL,
                     FOREIGN KEY(follower_id) REFERENCES users(id),
