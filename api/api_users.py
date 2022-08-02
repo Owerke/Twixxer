@@ -131,6 +131,24 @@ def get_user_followers(username):
 
     return HTTPResponse(status=200, body=followers)
 
+@get(f"/api/user/<username>/isfollowed")
+def get_user_is_followed(username):
+    """HTTP GET: Get if the user is followed by the current logged in user"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    followed_user = Db_users.get_user_by_username(username)
+    is_already_followed = Db_follows.get_if_user_is_followed(token["id"], followed_user["id"])
+
+    return HTTPResponse(status=200, body={"isFollowed": is_already_followed})
+
 @post(f"/api/user/<username>/follow")
 def follow_user(username):
     """HTTP POST: Follow the user"""

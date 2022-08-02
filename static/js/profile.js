@@ -130,5 +130,69 @@ async function submitTweet() {
 
 }
 
-let path = window.location.pathname.split("/")
-get_tweets_for_user_by_username(path[2]);
+async function htmlDisplayFollowStatus(user) {
+    const connection = await fetch(`/api/user/${user}/isfollowed`, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!connection.ok) {
+        alert("uppps... try again");
+        return;
+    }
+    const response = JSON.parse(await connection.text());
+    let isFollowed = response.isFollowed;
+
+    if (isFollowed) {
+        document.getElementById("btn-follow").style.display = "none"
+        document.getElementById("btn-unfollow").style.display = "block"
+    } else {
+        document.getElementById("btn-follow").style.display = "block"
+        document.getElementById("btn-unfollow").style.display = "none"
+    }
+
+}
+
+async function follow_user() {
+    let user = window.location.pathname.split("/")[2]
+
+    const connection = await fetch(`/api/user/${user}/follow`, {
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!connection.ok) {
+        alert("uppps... try again");
+        return;
+    }
+
+    htmlDisplayFollowStatus(user);
+}
+
+async function unfollow_user() {
+    let user = window.location.pathname.split("/")[2]
+
+    const connection = await fetch(`/api/user/${user}/follow`, {
+        method: "DELETE",
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!connection.ok) {
+        alert("uppps... try again");
+        return;
+    }
+
+    htmlDisplayFollowStatus(user);
+}
+
+let path = window.location.pathname.split("/");
+let username = path[2];
+
+get_tweets_for_user_by_username(username);
+htmlDisplayFollowStatus(username);
