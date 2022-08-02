@@ -1,4 +1,4 @@
- Twixxer
+# Twixxer
 
 Final exam project for web development. This is where you can find installation guides, and basic information about the project.
 
@@ -22,7 +22,8 @@ Activate the Python VENV:
 ./Scripts/Activate.ps1
 ```
 
-Install all Python packages from the requirements.txt file (all python packages you need should be in this file)
+Install all Python packages from the requirements.txt file (all python packages you need should be in this file).  
+_(Might need to run this twice, Bottle does not want to install sometimes)_
 ```
 pip3 install -r requirements.txt
 ```

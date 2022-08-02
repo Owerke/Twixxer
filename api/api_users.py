@@ -9,13 +9,15 @@ from mimetypes import common_types
 from models.jwt import Jwt_data
 from typing import List
 import uuid
-from bottle import get, post, request, HTTPResponse
+from bottle import get, post, delete, request, HTTPResponse
 import common
 
 # All these imported modules are coded in this project
 import authentication
 from models.user import User
+from models.follow import Follow
 import db.db_users as Db_users
+import db.db_follows as Db_follows
 
 @get(f"/api/users")
 def get_users():
@@ -94,6 +96,121 @@ def create_user():
     # Remove password before returning it
     user["password"] = "****"
     return HTTPResponse(status=200, body=user)
+
+@get(f"/api/user/<username>/following")
+def get_user_followings(username):
+    """HTTP GET: Get who the user is following"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    follows: List[Follow] = Db_follows.get_followings_for_user(username);
+
+    return HTTPResponse(status=200, body=follows)
+
+@get(f"/api/user/<username>/followers")
+def get_user_followers(username):
+    """HTTP GET: Get who the user is following"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    followers: List[Follow] = Db_follows.get_followers_for_user(username);
+
+    return HTTPResponse(status=200, body=followers)
+
+@get(f"/api/user/<username>/isfollowed")
+def get_user_is_followed(username):
+    """HTTP GET: Get if the user is followed by the current logged in user"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    followed_user = Db_users.get_user_by_username(username)
+    is_already_followed = Db_follows.get_if_user_is_followed(token["id"], followed_user["id"])
+
+    return HTTPResponse(status=200, body={"isFollowed": is_already_followed})
+
+@post(f"/api/user/<username>/follow")
+def follow_user(username):
+    """HTTP POST: Follow the user"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    # We can't follow ourselves.
+    if token["username"] == username:
+        return HTTPResponse(status=401, body="You can't follow yourself")
+
+    followed_user = Db_users.get_user_by_username(username)
+
+    if not followed_user:
+        return HTTPResponse(status=401, body="Followed user does not exist")
+
+    # Check if we already follow this user
+    is_already_followed = Db_follows.get_if_user_is_followed(token["id"], followed_user["id"])
+    if is_already_followed:
+        return HTTPResponse(status=401, body="User is already followed")
+
+    result = Db_follows.create_following_by_properties(token["id"], followed_user["id"]);
+
+    if not result:
+        return HTTPResponse(status=500, body="Something went wrong")
+
+    return HTTPResponse(status=200)
+
+@delete(f"/api/user/<username>/follow")
+def unfollow_user(username):
+    """HTTP POST: Follow the user"""
+    auth_token = request.headers.get('Authorization', None)
+    auth_token = authentication.parse_jwt_header(auth_token)
+    # if the token is empty, then reject.
+    if not auth_token:
+        return HTTPResponse(status=401, body="Unathorized")
+    token: Jwt_data = authentication.decode_jwt(auth_token)
+    # if the token is not valid, then reject
+    if not token:
+        return HTTPResponse(status=401, body="Unathorized")
+
+    # We can't unfollow ourselves.
+    if token["username"] == username:
+        return HTTPResponse(status=401, body="You can't unfollow yourself")
+
+    followed_user = Db_users.get_user_by_username(username)
+
+    if not followed_user:
+        return HTTPResponse(status=401, body="Followed user does not exist")
+
+    result = Db_follows.delete_following(token["id"], followed_user["id"]);
+
+    if not result:
+        return HTTPResponse(status=500, body="Something went wrong")
+
+    return HTTPResponse(status=200)
 
 # This is basically only for testing JWT authentication
 @post(f"/api/jwt-test")

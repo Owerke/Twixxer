@@ -130,6 +130,16 @@
 
                 <p class="font-thin">1 Following 666 Followers</p>
 
+                <button type='button' onclick="follow_user()" id='btn-follow'
+                    class="py-2 px-4 w-1/4 text-white rounded-full bg-blue font-sans font-thin border-slate-700 hover:border-blue" data-default="Follow" data-await="Follow">
+                    Follow
+                </button>
+
+                <button type='button' onclick="unfollow_user()" id='btn-unfollow'
+                    class="py-2 px-4 w-1/4 rounded-full font-sans font-thin border border-slate-700 bg-gray-50 hover:border-blue" data-default="Unfollow" data-await="Unfollow">
+                    Followed
+                </button>
+
             </div>
             % for tweet in tweets:
             <div id="tweets" class="mt-4"></div>
